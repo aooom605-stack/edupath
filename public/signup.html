@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EduPath Signup | إنشاء حساب جديد</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --bg:          #0F1117;
@@ -237,7 +238,7 @@
 <body>
 
   <div class="login-card" id="signupCard">
-    <div class="login-logo">EduPath 🎓</div>
+    <div class="login-logo">EduPath <i class="fa-solid fa-graduation-cap" style="color: var(--coral);"></i></div>
     <div class="login-subtitle" id="formSubtitle">إنشاء حساب جديد / Sign Up for a new account</div>
     
     <div class="error-msg" id="errorMsg"></div>
@@ -407,7 +408,7 @@
           infoMsg.style.color = 'var(--success)';
           infoMsg.style.background = 'rgba(107, 203, 119, 0.08)';
           infoMsg.style.borderColor = 'rgba(107, 203, 119, 0.2)';
-          infoMsg.textContent = '🎉 تم التحقق وتسجيل الحساب بنجاح! جاري التوجيه... / Registration successful! Redirecting...';
+          infoMsg.textContent = 'تم التحقق وتسجيل الحساب بنجاح! جاري التوجيه... / Registration successful! Redirecting...';
           
           setTimeout(() => {
             if (data.role === 'admin') {

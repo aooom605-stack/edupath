@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EduPath Admin Panel | لوحة تحكم المشرف</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* DESIGN SYSTEM & CSS VARIABLES */
     :root {
@@ -1029,54 +1030,54 @@
     <aside class="sidebar" id="sidebar">
       <div>
         <div class="sidebar-brand">
-          <span class="brand-logo">EduPath 🎓</span>
+          <span class="brand-logo">EduPath <i class="fa-solid fa-graduation-cap" style="color: var(--coral);"></i></span>
           <span class="brand-subtitle">لوحة التحكم / Admin Panel</span>
         </div>
         <nav class="sidebar-nav">
           <a href="#" class="nav-item active" data-page="dashboard">
-            <span class="nav-icon">🏠</span>
+            <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
             <div class="nav-label-container">
               <span class="nav-label-ar">الرئيسية</span>
               <span class="nav-label-en">Dashboard</span>
             </div>
           </a>
           <a href="#" class="nav-item" data-page="videos">
-            <span class="nav-icon">🎬</span>
+            <span class="nav-icon"><i class="fa-solid fa-video"></i></span>
             <div class="nav-label-container">
               <span class="nav-label-ar">الفيديوهات</span>
               <span class="nav-label-en">Videos</span>
             </div>
           </a>
           <a href="#" class="nav-item" data-page="courses">
-            <span class="nav-icon">📚</span>
+            <span class="nav-icon"><i class="fa-solid fa-book"></i></span>
             <div class="nav-label-container">
               <span class="nav-label-ar">الكورسات</span>
               <span class="nav-label-en">Courses</span>
             </div>
           </a>
           <a href="#" class="nav-item" data-page="students">
-            <span class="nav-icon">👥</span>
+            <span class="nav-icon"><i class="fa-solid fa-users"></i></span>
             <div class="nav-label-container">
               <span class="nav-label-ar">الطلاب</span>
               <span class="nav-label-en">Students</span>
             </div>
           </a>
           <a href="#" class="nav-item" data-page="comments">
-            <span class="nav-icon">💬</span>
+            <span class="nav-icon"><i class="fa-solid fa-comments"></i></span>
             <div class="nav-label-container">
               <span class="nav-label-ar">التعليقات</span>
               <span class="nav-label-en">Comments</span>
             </div>
           </a>
           <a href="#" class="nav-item" data-page="analytics">
-            <span class="nav-icon">📊</span>
+            <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span>
             <div class="nav-label-container">
               <span class="nav-label-ar">الإحصائيات</span>
               <span class="nav-label-en">Analytics</span>
             </div>
           </a>
           <a href="#" class="nav-item" data-page="settings">
-            <span class="nav-icon">⚙️</span>
+            <span class="nav-icon"><i class="fa-solid fa-cog"></i></span>
             <div class="nav-label-container">
               <span class="nav-label-ar">الإعدادات</span>
               <span class="nav-label-en">Settings</span>
@@ -1093,7 +1094,7 @@
           </div>
         </div>
         <button class="nav-item btn-logout" onclick="handleLogout()">
-          <span class="nav-icon">🚪</span>
+          <span class="nav-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
           <div class="nav-label-container">
             <span class="nav-label-ar">تسجيل الخروج</span>
             <span class="nav-label-en">Logout</span>
@@ -1110,7 +1111,7 @@
           <span></span>
           <span></span>
         </button>
-        <div class="mobile-logo">EduPath 🎓</div>
+        <div class="mobile-logo">EduPath <i class="fa-solid fa-graduation-cap" style="color: var(--coral);"></i></div>
       </header>
 
       <!-- MAIN PAGE ROUTER CONTENT -->
@@ -1120,7 +1121,7 @@
         <section class="page-section" id="page-dashboard">
           <div class="page-header flex-between">
             <div>
-              <h1 class="page-title">مرحباً، Admin 👋 <span class="subtitle">Welcome</span></h1>
+              <h1 class="page-title">مرحباً، Admin <i class="fa-solid fa-circle-user" style="color: var(--coral);"></i> <span class="subtitle">Welcome</span></h1>
               <div class="live-clock" id="liveClock"></div>
             </div>
           </div>
@@ -1128,7 +1129,7 @@
           <!-- Stats Grid -->
           <div class="stats-grid">
             <div class="admin-stat-card border-coral">
-              <span class="stat-card-icon bg-coral">🎬</span>
+              <span class="stat-card-icon bg-coral"><i class="fa-solid fa-video"></i></span>
               <div class="stat-card-info">
                 <span class="stat-card-title-ar">إجمالي الفيديوهات</span>
                 <span class="stat-card-title-en">Total Videos</span>
@@ -1137,7 +1138,7 @@
               <span class="stat-card-trend trend-up">↑ 12%</span>
             </div>
             <div class="admin-stat-card border-teal">
-              <span class="stat-card-icon bg-teal">📚</span>
+              <span class="stat-card-icon bg-teal"><i class="fa-solid fa-book"></i></span>
               <div class="stat-card-info">
                 <span class="stat-card-title-ar">إجمالي الكورسات</span>
                 <span class="stat-card-title-en">Total Courses</span>
@@ -1146,7 +1147,7 @@
               <span class="stat-card-trend trend-up">↑ 5%</span>
             </div>
             <div class="admin-stat-card border-gold">
-              <span class="stat-card-icon bg-gold">👥</span>
+              <span class="stat-card-icon bg-gold"><i class="fa-solid fa-users"></i></span>
               <div class="stat-card-info">
                 <span class="stat-card-title-ar">الطلاب المسجلين</span>
                 <span class="stat-card-title-en">Enrolled Students</span>
@@ -1155,7 +1156,7 @@
               <span class="stat-card-trend trend-up">↑ 8%</span>
             </div>
             <div class="admin-stat-card border-muted">
-              <span class="stat-card-icon bg-muted">💬</span>
+              <span class="stat-card-icon bg-muted"><i class="fa-solid fa-comments"></i></span>
               <div class="stat-card-info">
                 <span class="stat-card-title-ar">التعليقات</span>
                 <span class="stat-card-title-en">Comments</span>
@@ -1178,19 +1179,19 @@
               <h2 class="card-title">إجراءات سريعة <span class="subtitle">/ Quick Actions</span></h2>
               <div class="quick-actions-list">
                 <button class="quick-action-btn" onclick="openModal('video')">
-                  <span class="btn-icon">🎬</span>
+                  <span class="btn-icon"><i class="fa-solid fa-video"></i></span>
                   <span>إضافة فيديو / Add Video</span>
                 </button>
                 <button class="quick-action-btn" onclick="openModal('course')">
-                  <span class="btn-icon">📚</span>
+                  <span class="btn-icon"><i class="fa-solid fa-book"></i></span>
                   <span>إضافة كورس / Add Course</span>
                 </button>
                 <button class="quick-action-btn" onclick="navigateToPage('comments')">
-                  <span class="btn-icon">💬</span>
+                  <span class="btn-icon"><i class="fa-solid fa-comments"></i></span>
                   <span>عرض التعليقات / View Comments</span>
                 </button>
                 <button class="quick-action-btn" onclick="navigateToPage('analytics')">
-                  <span class="btn-icon">📊</span>
+                  <span class="btn-icon"><i class="fa-solid fa-chart-pie"></i></span>
                   <span>الإحصائيات / Analytics</span>
                 </button>
               </div>
@@ -1346,28 +1347,28 @@
 
           <div class="summary-cards-row">
             <div class="summary-card">
-              <span class="summary-card-icon">🔥</span>
+              <span class="summary-card-icon"><i class="fa-solid fa-fire" style="color: #FF6B6B;"></i></span>
               <div class="summary-card-info">
                 <span class="summary-label">الكورس الأكثر مشاهدة / Most Watched Course</span>
                 <span class="summary-value" id="mostWatchedCourse">-</span>
               </div>
             </div>
             <div class="summary-card">
-              <span class="summary-card-icon">🆕</span>
+              <span class="summary-card-icon"><i class="fa-solid fa-video" style="color: #4ECDC4;"></i></span>
               <div class="summary-card-info">
                 <span class="summary-label">أحدث فيديو مضاف / Latest Video Added</span>
                 <span class="summary-value" id="latestVideoAdded">-</span>
               </div>
             </div>
             <div class="summary-card">
-              <span class="summary-card-icon">⏱️</span>
+              <span class="summary-card-icon"><i class="fa-solid fa-clock" style="color: #FFD93D;"></i></span>
               <div class="summary-card-info">
                 <span class="summary-label">إجمالي ساعات المحتوى / Total Content Hours</span>
                 <span class="summary-value" id="totalContentHours">0</span>
               </div>
             </div>
             <div class="summary-card">
-              <span class="summary-card-icon">💬</span>
+              <span class="summary-card-icon"><i class="fa-solid fa-comments" style="color: #8B8FA8;"></i></span>
               <div class="summary-card-info">
                 <span class="summary-label">معدل التعليقات / Avg Comments per Video</span>
                 <span class="summary-value" id="avgCommentsPerVideo">0</span>
@@ -1535,8 +1536,8 @@
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>أيقونة الكورس / Course Icon (Emoji) *</label>
-              <input type="text" id="courseIconInput" placeholder="e.g. 🐍" required>
+              <label>أيقونة الكورس / Course Icon (Font Awesome Class) *</label>
+              <input type="text" id="courseIconInput" placeholder="e.g. fa-brands fa-python" required>
             </div>
             <div class="form-group">
               <label>الحالة / Status *</label>
@@ -1579,6 +1580,14 @@
   <!-- JAVASCRIPT IMPLEMENTATIONS -->
   <script src="/assets/app.js"></script>
   <script>
+    function renderIcon(iconStr, extraStyle = '') {
+      if (!iconStr) return '';
+      if (iconStr.includes('fa-')) {
+        return `<i class="${iconStr}" style="${extraStyle}"></i>`;
+      }
+      return iconStr;
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       seedDefaultData();
       initSidebar();
@@ -1604,11 +1613,11 @@
     function seedDefaultData() {
       if (!localStorage.getItem('ep_courses')) {
         const defaultCourses = [
-          { id: "c1", name: "Python للمبتدئين", description: "تعلم بايثون من الصفر", category: "Programming", level: "مبتدئ", duration: "8 ساعات", price: 0, icon: "🐍", status: "published" },
-          { id: "c2", name: "JavaScript الحديث", description: "احترف الجافاسكريبت الحديثة", category: "Programming", level: "متوسط", duration: "12 ساعة", price: 299, icon: "⚡", status: "published" },
-          { id: "c3", name: "Excel الاحترافي", description: "احترف برنامج اكسل بالكامل", category: "Office", level: "مبتدئ", duration: "6 ساعات", price: 199, icon: "📊", status: "published" },
-          { id: "c4", name: "SQL وقواعد البيانات", description: "تعلم SQL وقواعد البيانات", category: "Data", level: "متقدم", duration: "14 ساعة", price: 349, icon: "🗄️", status: "draft" },
-          { id: "c5", name: "تصميم UI/UX بـ Figma", description: "تعلم واجهات المستخدم بفيجما", category: "Design", level: "متوسط", duration: "10 ساعات", price: 249, icon: "🎨", status: "published" }
+          { id: "c1", name: "Python للمبتدئين", description: "تعلم بايثون من الصفر", category: "Programming", level: "مبتدئ", duration: "8 ساعات", price: 0, icon: "fa-brands fa-python", status: "published" },
+          { id: "c2", name: "JavaScript الحديث", description: "احترف الجافاسكريبت الحديثة", category: "Programming", level: "متوسط", duration: "12 ساعة", price: 299, icon: "fa-brands fa-js", status: "published" },
+          { id: "c3", name: "Excel الاحترافي", description: "احترف برنامج اكسل بالكامل", category: "Office", level: "مبتدئ", duration: "6 ساعات", price: 199, icon: "fa-solid fa-file-excel", status: "published" },
+          { id: "c4", name: "SQL وقواعد البيانات", description: "تعلم SQL وقواعد البيانات", category: "Data", level: "متقدم", duration: "14 ساعة", price: 349, icon: "fa-solid fa-database", status: "draft" },
+          { id: "c5", name: "تصميم UI/UX بـ Figma", description: "تعلم واجهات المستخدم بفيجما", category: "Design", level: "متوسط", duration: "10 ساعات", price: 249, icon: "fa-brands fa-figma", status: "published" }
         ];
         localStorage.setItem('ep_courses', JSON.stringify(defaultCourses));
       }
@@ -1641,11 +1650,11 @@
 
       if (!localStorage.getItem('ep_activity')) {
         const defaultActivity = [
-          { msg: "✅ تمت إضافة فيديو \"مقدمة Python\" — منذ دقيقتين", timestamp: Date.now() - 2 * 60 * 1000 },
-          { msg: "✏️ تم تعديل كورس \"JavaScript المتقدم\" — منذ 15 دقيقة", timestamp: Date.now() - 15 * 60 * 1000 },
-          { msg: "🗑️ تم حذف تعليق مخالف — منذ ساعة", timestamp: Date.now() - 60 * 60 * 1000 },
-          { msg: "📚 تمت إضافة كورس جديد \"تحليل البيانات\" — منذ 3 ساعات", timestamp: Date.now() - 3 * 60 * 60 * 1000 },
-          { msg: "👤 طالب جديد: أحمد محمد — منذ 5 ساعات", timestamp: Date.now() - 5 * 60 * 60 * 1000 }
+          { msg: "تمت إضافة فيديو \"مقدمة Python\" — منذ دقيقتين", timestamp: Date.now() - 2 * 60 * 1000 },
+          { msg: "تم تعديل كورس \"JavaScript المتقدم\" — منذ 15 دقيقة", timestamp: Date.now() - 15 * 60 * 1000 },
+          { msg: "تم حذف تعليق مخالف — منذ ساعة", timestamp: Date.now() - 60 * 60 * 1000 },
+          { msg: "تمت إضافة كورس جديد \"تحليل البيانات\" — منذ 3 ساعات", timestamp: Date.now() - 3 * 60 * 60 * 1000 },
+          { msg: "طالب جديد: أحمد محمد — منذ 5 ساعات", timestamp: Date.now() - 5 * 60 * 60 * 1000 }
         ];
         localStorage.setItem('ep_activity', JSON.stringify(defaultActivity));
       }
@@ -1753,12 +1762,12 @@
         const item = document.createElement('div');
         item.className = 'activity-item';
 
-        let icon = '🔔';
-        if (act.msg.includes('فيديو') || act.msg.includes('Video')) icon = '🎬';
-        else if (act.msg.includes('كورس') || act.msg.includes('Course')) icon = '📚';
-        else if (act.msg.includes('تعليق') || act.msg.includes('Comment')) icon = '💬';
-        else if (act.msg.includes('طالب') || act.msg.includes('Student')) icon = '👤';
-        else if (act.msg.includes('موافقة') || act.msg.includes('Approve')) icon = '✅';
+        let icon = '<i class="fa-solid fa-bell" style="color: var(--muted);"></i>';
+        if (act.msg.includes('فيديو') || act.msg.includes('Video')) icon = '<i class="fa-solid fa-video" style="color: var(--coral);"></i>';
+        else if (act.msg.includes('كورس') || act.msg.includes('Course')) icon = '<i class="fa-solid fa-book" style="color: var(--teal);"></i>';
+        else if (act.msg.includes('تعليق') || act.msg.includes('Comment')) icon = '<i class="fa-solid fa-comments" style="color: var(--muted);"></i>';
+        else if (act.msg.includes('طالب') || act.msg.includes('Student')) icon = '<i class="fa-solid fa-users" style="color: var(--gold);"></i>';
+        else if (act.msg.includes('موافقة') || act.msg.includes('Approve')) icon = '<i class="fa-solid fa-circle-check" style="color: var(--teal);"></i>';
 
         const timeAgo = Math.round((Date.now() - act.timestamp) / 60000);
         let timeStr = 'الآن / Just now';
@@ -1806,7 +1815,7 @@
       courses.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c.id;
-        opt.textContent = `${c.icon} ${c.name}`;
+        opt.textContent = (c.icon.includes('fa-') ? '' : c.icon + ' ') + c.name;
         courseFilter.appendChild(opt);
       });
       courseFilter.value = currentSelected;
@@ -1829,7 +1838,7 @@
       filteredVideos.forEach((v, index) => {
         const tr = document.createElement('tr');
         const course = courses.find(c => c.id === v.courseId);
-        const courseName = course ? `${course.icon} ${course.name}` : 'غير مرتبط / Unlinked';
+        const courseName = course ? (course.icon.includes('fa-') ? '' : course.icon + ' ') + course.name : 'غير مرتبط / Unlinked';
 
         const statusBadge = v.status === 'published'
           ? `<span class="badge badge-success">منشور / Published</span>`
@@ -1846,8 +1855,8 @@
           <td>${statusBadge}</td>
           <td class="font-mono">${v.dateAdded}</td>
           <td>
-            <button class="btn-action edit" onclick="openModal('video', '${v.id}')">✏️</button>
-            <button class="btn-action delete" onclick="deleteItem('video', '${v.id}')">🗑️</button>
+            <button class="btn-action edit" onclick="openModal('video', '${v.id}')"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn-action delete" onclick="deleteItem('video', '${v.id}')"><i class="fa-solid fa-trash"></i></button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -1866,7 +1875,7 @@
 
       const youtubeId = extractYouTubeId(youtubeUrl);
       if (!youtubeId) {
-        showToast("❌ رابط يوتيوب غير صالح! / Invalid YouTube URL!", "error");
+        showToast("<i class=\"fa-solid fa-circle-xmark\" style=\"margin-left: 8px;\"></i> رابط يوتيوب غير صالح! / Invalid YouTube URL!", "error");
         return;
       }
 
@@ -1883,15 +1892,15 @@
         const index = videos.findIndex(x => x.id === data.id);
         if (index !== -1) {
           videos[index] = { ...videos[index], ...data, dateAdded: videos[index].dateAdded };
-          showToast("✏️ تم تعديل الفيديو بنجاح! / Video updated.", "success");
-          logActivity(`✏️ تم تعديل فيديو: "${data.title}"`);
+          showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تم تعديل الفيديو بنجاح! / Video updated.", "success");
+          logActivity(`تم تعديل فيديو: "${data.title}"`);
         }
       } else {
         data.id = "v_" + Date.now();
         data.dateAdded = new Date().toISOString().split('T')[0];
         videos.push(data);
-        showToast("✅ تمت إضافة الفيديو بنجاح! / Video added.", "success");
-        logActivity(`✅ تمت إضافة فيديو: "${data.title}"`);
+        showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تمت إضافة الفيديو بنجاح! / Video added.", "success");
+        logActivity(`تمت إضافة فيديو: "${data.title}"`);
       }
 
       localStorage.setItem('ep_videos', JSON.stringify(videos));
@@ -1919,7 +1928,7 @@
 
         tr.innerHTML = `
           <td class="font-mono">${index + 1}</td>
-          <td style="font-size:24px;">${c.icon}</td>
+          <td style="font-size:24px;">${renderIcon(c.icon)}</td>
           <td style="font-weight:600; color:#fff;">${c.name}</td>
           <td>${c.category}</td>
           <td>${c.level}</td>
@@ -1927,9 +1936,9 @@
           <td class="font-mono">${priceText}</td>
           <td>${statusBadge}</td>
           <td>
-            <button class="btn-action edit" onclick="openModal('course', '${c.id}')">✏️</button>
-            <button class="btn-action delete" onclick="deleteItem('course', '${c.id}')">🗑️</button>
-            <button class="btn-action view" onclick="viewCourseVideos('${c.id}')">👁️</button>
+            <button class="btn-action edit" onclick="openModal('course', '${c.id}')"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn-action delete" onclick="deleteItem('course', '${c.id}')"><i class="fa-solid fa-trash"></i></button>
+            <button class="btn-action view" onclick="viewCourseVideos('${c.id}')"><i class="fa-solid fa-eye"></i></button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -1960,14 +1969,14 @@
         const index = courses.findIndex(x => x.id === data.id);
         if (index !== -1) {
           courses[index] = { ...courses[index], ...data };
-          showToast("✏️ تم تعديل الكورس بنجاح! / Course updated.", "success");
-          logActivity(`✏️ تم تعديل كورس: "${data.name}"`);
+          showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تم تعديل الكورس بنجاح! / Course updated.", "success");
+          logActivity(`تم تعديل كورس: "${data.name}"`);
         }
       } else {
         data.id = "c_" + Date.now();
         courses.push(data);
-        showToast("✅ تمت إضافة الكورس بنجاح! / Course added.", "success");
-        logActivity(`📚 تمت إضافة كورس جديد: "${data.name}"`);
+        showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تمت إضافة الكورس بنجاح! / Course added.", "success");
+        logActivity(`تمت إضافة كورس جديد: "${data.name}"`);
       }
 
       localStorage.setItem('ep_courses', JSON.stringify(courses));
@@ -2023,12 +2032,12 @@
         let actions = '';
         if (c.status === 'pending') {
           actions = `
-            <button class="btn btn-primary" style="padding: 6px 12px; font-size:12px; min-height:30px;" onclick="saveComment('${c.id}', 'approved')">✅ موافقة / Approve</button>
-            <button class="btn btn-danger" style="padding: 6px 12px; font-size:12px; min-height:30px;" onclick="deleteItem('comment', '${c.id}')">🗑️ حذف / Delete</button>
+            <button class="btn btn-primary" style="padding: 6px 12px; font-size:12px; min-height:30px;" onclick="saveComment('${c.id}', 'approved')"><i class="fa-solid fa-check" style="margin-left: 5px;"></i> موافقة / Approve</button>
+            <button class="btn btn-danger" style="padding: 6px 12px; font-size:12px; min-height:30px;" onclick="deleteItem('comment', '${c.id}')"><i class="fa-solid fa-trash" style="margin-left: 5px;"></i> حذف / Delete</button>
           `;
         } else if (c.status === 'approved') {
           actions = `
-            <button class="btn btn-danger" style="padding: 6px 12px; font-size:12px; min-height:30px;" onclick="deleteItem('comment', '${c.id}')">🗑️ حذف / Delete</button>
+            <button class="btn btn-danger" style="padding: 6px 12px; font-size:12px; min-height:30px;" onclick="deleteItem('comment', '${c.id}')"><i class="fa-solid fa-trash" style="margin-left: 5px;"></i> حذف / Delete</button>
           `;
         } else {
           actions = `<span style="font-size:12px; color:var(--muted)">لا يوجد / No actions</span>`;
@@ -2156,19 +2165,19 @@
       const savedPassword = settings ? settings.password : "edupath2025";
 
       if (currentPassword !== savedPassword) {
-        showToast("❌ كلمة المرور الحالية غير صحيحة! / Current password incorrect!", "error");
+        showToast("<i class=\"fa-solid fa-circle-xmark\" style=\"margin-left: 8px;\"></i> كلمة المرور الحالية غير صحيحة! / Current password incorrect!", "error");
         return;
       }
 
       if (newPassword !== confirmPassword) {
-        showToast("❌ كلمتا المرور الجديدتان غير متطابقتين! / New passwords do not match!", "error");
+        showToast("<i class=\"fa-solid fa-circle-xmark\" style=\"margin-left: 8px;\"></i> كلمتا المرور الجديدتان غير متطابقتين! / New passwords do not match!", "error");
         return;
       }
 
       settings.password = newPassword;
       localStorage.setItem('ep_settings', JSON.stringify(settings));
-      showToast("✅ تم تغيير كلمة المرور بنجاح! / Password changed successfully.", "success");
-      logActivity("⚙️ تم تغيير كلمة المرور للمشرف");
+      showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تم تغيير كلمة المرور بنجاح! / Password changed successfully.", "success");
+      logActivity("تم تغيير كلمة المرور للمشرف");
 
       document.getElementById('changePasswordForm').reset();
     }
@@ -2182,8 +2191,8 @@
       settings.email = email;
 
       localStorage.setItem('ep_settings', JSON.stringify(settings));
-      showToast("✅ تم حفظ معلومات المنصة! / Platform info saved.", "success");
-      logActivity("⚙️ تم تعديل إعدادات المنصة");
+      showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تم حفظ معلومات المنصة! / Platform info saved.", "success");
+      logActivity("تم تعديل إعدادات المنصة");
     }
 
     // SYSTEM RESETS
@@ -2215,7 +2224,7 @@
         courses.forEach(c => {
           const opt = document.createElement('option');
           opt.value = c.id;
-          opt.textContent = `${c.icon} ${c.name}`;
+          opt.textContent = (c.icon.includes('fa-') ? '' : c.icon + ' ') + c.name;
           courseSelect.appendChild(opt);
         });
 
@@ -2310,16 +2319,16 @@
         const v = videos.find(x => x.id === id);
         videos = videos.filter(x => x.id !== id);
         localStorage.setItem('ep_videos', JSON.stringify(videos));
-        showToast("🗑️ تم حذف الفيديو بنجاح. / Video deleted.", "success");
-        if (v) logActivity(`🗑️ تم حذف فيديو: "${v.title}"`);
+        showToast("<i class=\"fa-solid fa-trash-can\" style=\"margin-left: 8px;\"></i> تم حذف الفيديو بنجاح. / Video deleted.", "success");
+        if (v) logActivity(`تم حذف فيديو: "${v.title}"`);
         initVideosPage();
       } else if (type === 'course') {
         let courses = JSON.parse(localStorage.getItem('ep_courses')) || [];
         const c = courses.find(x => x.id === id);
         courses = courses.filter(x => x.id !== id);
         localStorage.setItem('ep_courses', JSON.stringify(courses));
-        showToast("🗑️ تم حذف الكورس بنجاح. / Course deleted.", "success");
-        if (c) logActivity(`🗑️ تم حذف كورس: "${c.name}"`);
+        showToast("<i class=\"fa-solid fa-trash-can\" style=\"margin-left: 8px;\"></i> تم حذف الكورس بنجاح. / Course deleted.", "success");
+        if (c) logActivity(`تم حذف كورس: "${c.name}"`);
         
         let videos = JSON.parse(localStorage.getItem('ep_videos')) || [];
         videos.forEach(v => {
@@ -2335,8 +2344,8 @@
         if (c) {
           c.status = 'deleted';
           localStorage.setItem('ep_comments', JSON.stringify(comments));
-          showToast("🗑️ تم حذف التعليق. / Comment deleted.", "success");
-          logActivity(`🗑️ تم حذف تعليق للطالب: "${c.studentName}"`);
+          showToast("<i class=\"fa-solid fa-trash-can\" style=\"margin-left: 8px;\"></i> تم حذف التعليق. / Comment deleted.", "success");
+          logActivity(`تم حذف تعليق للطالب: "${c.studentName}"`);
         }
         initCommentsPage();
       }
@@ -2348,7 +2357,7 @@
     // TOAST NOTIFICATIONS
     function showToast(msg, type = 'success') {
       let toast = document.getElementById('adminToast');
-      toast.textContent = msg;
+      toast.innerHTML = msg;
       toast.className = `toast-notification show ${type}`;
       
       if (type === 'success') {
