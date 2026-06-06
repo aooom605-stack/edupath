@@ -1,0 +1,25 @@
+[build]
+  publish = "public"
+
+[functions]
+  directory = "api"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/.netlify/functions/admin"
+  status = 200
+
+[[redirects]]
+  from = "/login"
+  to = "/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/signup"
+  to = "/signup.html"
+  status = 200

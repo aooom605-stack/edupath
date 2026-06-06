@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduPath Admin Login | تسجيل الدخول</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:          #0F1117;
+      --card:        #1E2028;
+      --border:      --border; /* Note: can keep var --border */
+      --border:      #2A2D38;
+      --coral:       #FF6B6B;
+      --text:        #E8E9EF;
+      --muted:       #8B8FA8;
+      --danger:      #FF6B6B;
+      --radius:      12px;
+      --trans:       0.25s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 45px 35px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    .login-logo {
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .login-subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .error-msg {
+      color: var(--danger);
+      background: rgba(255, 107, 107, 0.08);
+      border: 1px solid rgba(255, 107, 107, 0.2);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 25px;
+      display: none;
+      font-weight: 500;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: right;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+      transition: var(--trans);
+      text-align: right;
+    }
+
+    .form-group input:focus {
+      border-color: var(--coral);
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: var(--coral);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--trans);
+      margin-top: 10px;
+    }
+
+    .btn-login:hover {
+      background: #ff5252;
+      box-shadow: 0 4px 15px rgba(255,107,107,0.3);
+    }
+
+    .login-card.shake {
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-10px); }
+      40%, 80% { transform: translateX(10px); }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      .login-card {
+        padding: 30px 20px;
+        max-width: 100%;
+      }
+      .login-logo {
+        font-size: 28px;
+      }
+      .btn-login, .form-group input {
+        padding: 12px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-card" id="loginCard">
+    <div class="login-logo">EduPath 🎓</div>
+    <div class="login-subtitle">لوحة تحكم المشرف / Admin Panel</div>
+    
+    <div class="error-msg" id="errorMsg"></div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="emailInput">البريد الإلكتروني / Email Address</label>
+        <input type="email" id="emailInput" required placeholder="admin@edupath.com" style="direction: ltr; text-align: left;">
+      </div>
+      <div class="form-group">
+        <label for="passwordInput">كلمة المرور / Password</label>
+        <input type="password" id="passwordInput" required placeholder="••••••••" style="direction: ltr; text-align: left;">
+      </div>
+      <button type="submit" class="btn-login" id="submitBtn">تسجيل الدخول / Sign In</button>
+      
+      <div style="margin-top: 20px; font-size: 13px; color: var(--muted); text-align: center;">
+        ليس لديك حساب؟ / Don't have an account? 
+        <a href="/signup" style="color: var(--coral); text-decoration: none; font-weight: 600; margin-right: 5px;">إنشاء حساب جديد / Sign Up</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Check URL parameters for errors
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const error = urlParams.get('error');
+      const errorMsg = document.getElementById('errorMsg');
+      if (error === 'unauthorized') {
+        errorMsg.style.display = 'block';
+        errorMsg.textContent = 'هذا الحساب غير مصرح له بالدخول / Unauthorized account.';
+      } else if (error === 'failed') {
+        errorMsg.style.display = 'block';
+        errorMsg.textContent = 'فشل تسجيل الدخول، حاول مرة أخرى / Login failed.';
+      }
+    });
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value.trim();
+      const password = document.getElementById('passwordInput').value.trim();
+      const card = document.getElementById('loginCard');
+      const errorMsg = document.getElementById('errorMsg');
+      const submitBtn = document.getElementById('submitBtn');
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'جاري التحقق... / Verifying...';
+      errorMsg.style.display = 'none';
+
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          // Success redirect
+          if (data.role === 'admin') {
+            window.location.href = '/admin';
+          } else {
+            window.location.href = '/';
+          }
+        } else {
+          // Failure
+          card.classList.add('shake');
+          errorMsg.style.display = 'block';
+          errorMsg.textContent = data.error || 'فشل تسجيل الدخول / Login failed.';
+          setTimeout(() => {
+            card.classList.remove('shake');
+          }, 500);
+        }
+      } catch (err) {
+        errorMsg.style.display = 'block';
+        errorMsg.textContent = 'خطأ في الاتصال بالخادم. حاول مرة أخرى / Connection error.';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'تسجيل الدخول / Sign In';
+      }
+    }
+  </script>
+</body>
+</html>

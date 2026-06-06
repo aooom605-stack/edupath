@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Tester User",
+    "email": "tester@edupath.com",
+    "password": "$2b$10$7u46s.XEKhtAyrDDrQy89.Shx8P5W3ovEZOwqvitKQOSGIMCWcBPa",
+    "role": "admin",
+    "createdAt": "2026-06-06T21:29:44.977Z"
+  },
+  {
+    "name": "احمد حسام",
+    "email": "hossa867@gmail.com",
+    "password": "$2b$10$TKqdQa7UNu1E0n0MWcqF2OOTyKh1Kc6Y1iA5WKxNZ7kPhGsppYxRm",
+    "role": "user",
+    "createdAt": "2026-06-06T21:36:46.371Z"
+  }
+]

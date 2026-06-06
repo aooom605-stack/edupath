@@ -1,0 +1,2304 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EduPath — منصة تعليمية عربية للبرمجة والتصميم وأدوات الأوفيس">
+  <title>EduPath | تعلّم. طوّر. انطلق.</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS VARIABLES & DESIGN SYSTEM */
+    :root {
+      --bg:         #F8F6F2;
+      --navy:       #1A1F3C;
+      --coral:      #FF6B6B;
+      --teal:       #4ECDC4;
+      --card-bg:    rgba(255, 255, 255, 0.78);
+      --shadow:     0 8px 32px rgba(26, 31, 60, 0.10);
+      --radius-lg:  22px;
+      --radius-pill:999px;
+      --trans:      0.3s ease;
+    }
+
+    /* BASE STYLES */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Cairo', 'DM Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--navy);
+      direction: rtl;
+      text-align: right;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Cairo', 'Playfair Display', serif;
+      color: var(--navy);
+    }
+    a {
+      transition: var(--trans);
+    }
+
+    /* UTILITIES */
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--coral);
+      border-radius: var(--radius-pill);
+    }
+
+    /* 1. STICKY NAVBAR */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(248, 246, 242, 0.8);
+      backdrop-filter: blur(12px);
+      transition: var(--trans);
+      border-bottom: 1px solid rgba(26, 31, 60, 0.05);
+    }
+    .header.scrolled {
+      box-shadow: var(--shadow);
+      background: #F8F6F2;
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--navy);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+    .nav-link {
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      position: relative;
+      padding: 6px 0;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 2px;
+      background: var(--coral);
+      transition: var(--trans);
+    }
+    .nav-link.active, .nav-link:hover {
+      color: var(--coral);
+    }
+    .nav-link.active::after, .nav-link:hover::after {
+      width: 100%;
+    }
+    .btn-cta {
+      background: var(--coral);
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+    }
+    .btn-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(255, 107, 107, 0.35);
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 24px;
+      height: 18px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    .hamburger span {
+      width: 100%;
+      height: 2px;
+      background: var(--navy);
+      transition: var(--trans);
+    }
+    .auth-buttons-mobile {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .auth-buttons {
+        display: none !important;
+      }
+      .auth-buttons-mobile {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(26, 31, 60, 0.1);
+      }
+      .nav-link-login-mobile {
+        font-weight: 600;
+        color: var(--navy);
+        text-decoration: none;
+        font-size: 16px;
+        text-align: center;
+        padding: 10px;
+        font-family: 'Cairo', sans-serif;
+      }
+      .btn-cta-mobile {
+        background: var(--coral);
+        color: #fff;
+        padding: 12px;
+        border-radius: var(--radius-pill);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 16px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+        font-family: 'Cairo', sans-serif;
+        border: none;
+        cursor: pointer;
+      }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #F8F6F2;
+        flex-direction: column;
+        padding: 30px 20px;
+        gap: 20px;
+        box-shadow: 0 8px 16px rgba(26, 31, 60, 0.1);
+        border-top: 1px solid rgba(26, 31, 60, 0.05);
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(-5px, 6px);
+      }
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(-5px, -6px);
+      }
+    }
+
+    /* 2. HERO */
+    .hero-section {
+      position: relative;
+      padding: 160px 20px 100px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 85vh;
+      text-align: center;
+      background: radial-gradient(circle at 50% 50%, rgba(78, 205, 196, 0.08) 0%, transparent 60%);
+      overflow: hidden;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+    .hero-title {
+      font-size: 56px;
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 24px;
+    }
+    .hero-subtext {
+      font-size: 18px;
+      line-height: 1.8;
+      color: rgba(26, 31, 60, 0.8);
+      margin-bottom: 40px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+    .btn {
+      padding: 12px 32px;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--trans);
+    }
+    .btn-coral {
+      background: var(--coral);
+      color: #fff;
+      border: none;
+    }
+    .btn-coral:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--navy);
+      border: 2px solid var(--navy);
+    }
+    .btn-outline:hover {
+      background: var(--navy);
+      color: #fff;
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    /* Floating Shapes */
+    .floating-shape {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(2px);
+      z-index: 1;
+      pointer-events: none;
+      animation: float 4s infinite ease-in-out;
+    }
+    .shape-1 {
+      width: 90px;
+      height: 90px;
+      background: var(--coral);
+      opacity: 0.15;
+      top: 15%;
+      right: 10%;
+      animation-delay: 0s;
+    }
+    .shape-2 {
+      width: 130px;
+      height: 130px;
+      background: var(--teal);
+      opacity: 0.15;
+      bottom: 20%;
+      left: 10%;
+      animation-delay: 1.3s;
+    }
+    .shape-3 {
+      width: 60px;
+      height: 60px;
+      background: var(--navy);
+      opacity: 0.1;
+      top: 60%;
+      right: 25%;
+      animation-delay: 2.6s;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+      100% { transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 42px;
+      }
+      .hero-subtext {
+        font-size: 16px;
+      }
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 0 20px;
+      }
+      .btn {
+        width: 100%;
+        max-width: 280px;
+        padding: 10px 24px;
+        font-size: 15px;
+      }
+      .filter-pills-wrapper {
+        justify-content: flex-start;
+        padding: 0 15px;
+      }
+    }
+
+    /* 3. STATS BAR */
+    .stats-bar {
+      background: var(--navy);
+      color: #fff;
+      padding: 50px 20px;
+      position: relative;
+      z-index: 3;
+    }
+    .stats-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      text-align: center;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .stat-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+    .stat-number-wrapper {
+      font-size: 38px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .stat-label {
+      font-size: 16px;
+      opacity: 0.85;
+      font-weight: 500;
+    }
+    @media (max-width: 768px) {
+      .stats-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    /* 4. COURSE CATEGORIES */
+    .courses-section {
+      padding: 80px 20px;
+    }
+    .filter-pills-wrapper {
+      overflow-x: auto;
+      margin-bottom: 45px;
+      display: flex;
+      justify-content: center;
+      scrollbar-width: none; /* Firefox */
+    }
+    .filter-pills-wrapper::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+    .filter-pills {
+      display: flex;
+      gap: 12px;
+      padding: 4px;
+    }
+    .filter-pill {
+      background: var(--card-bg);
+      border: 1px solid rgba(26, 31, 60, 0.08);
+      color: var(--navy);
+      padding: 10px 24px;
+      border-radius: var(--radius-pill);
+      font-weight: 500;
+      font-size: 15px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--trans);
+    }
+    .filter-pill:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.9);
+    }
+    .filter-pill.active {
+      background: var(--coral);
+      color: #fff;
+      border-color: var(--coral);
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+    }
+    .courses-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    .course-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--trans), box-shadow var(--trans), opacity 0.35s ease;
+    }
+    .course-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(26, 31, 60, 0.15);
+    }
+    .course-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .course-icon {
+      font-size: 34px;
+    }
+    .course-badge {
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .badge-beginner {
+      background: rgba(78, 205, 196, 0.15);
+      color: #0d8c82;
+    }
+    .badge-intermediate {
+      background: rgba(255, 107, 107, 0.15);
+      color: #d13b3b;
+    }
+    .badge-advanced {
+      background: rgba(26, 31, 60, 0.1);
+      color: var(--navy);
+    }
+    .course-title {
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .course-duration {
+      font-size: 14px;
+      color: rgba(26, 31, 60, 0.65);
+      margin-bottom: 22px;
+    }
+    .course-progress-wrapper {
+      background: rgba(26, 31, 60, 0.08);
+      height: 8px;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .course-progress-bar {
+      height: 100%;
+      background: var(--teal);
+      border-radius: var(--radius-pill);
+      transition: width 0.5s ease;
+    }
+    .course-progress-text {
+      font-size: 13px;
+      color: rgba(26, 31, 60, 0.6);
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+    .btn-enroll {
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      width: 100%;
+      transition: var(--trans);
+      text-align: center;
+      margin-top: auto;
+      min-height: 44px;
+    }
+    .btn-enroll:hover {
+      background: var(--coral);
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.25);
+    }
+
+    /* 5. LANGUAGES PICKER */
+    .languages-section {
+      padding: 80px 20px;
+      background: rgba(78, 205, 196, 0.03);
+    }
+    .languages-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    .lang-card {
+      perspective: 1000px;
+      cursor: pointer;
+      height: 260px;
+    }
+    .lang-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s ease-in-out;
+      transform-style: preserve-3d;
+    }
+    .lang-card.flipped .lang-card-inner {
+      transform: rotateY(180deg);
+    }
+    .lang-card-front, .lang-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .lang-card-back {
+      transform: rotateY(180deg);
+      background: rgba(255, 255, 255, 0.94);
+    }
+    .lang-emoji {
+      font-size: 46px;
+      margin-bottom: 16px;
+    }
+    .lang-name {
+      font-size: 22px;
+      color: var(--navy);
+      margin-bottom: 10px;
+      font-family: 'Playfair Display', serif;
+    }
+    .lang-desc {
+      font-size: 14px;
+      color: rgba(26, 31, 60, 0.75);
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    .flip-hint {
+      font-size: 12px;
+      color: var(--teal);
+      font-weight: 700;
+      margin-top: auto;
+    }
+    .roadmap-title {
+      font-size: 19px;
+      color: var(--navy);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    .roadmap-steps {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: right;
+      margin-bottom: 10px;
+    }
+    .roadmap-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .step-num {
+      width: 26px;
+      height: 26px;
+      background: var(--teal);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .step-text {
+      font-size: 14px;
+      color: var(--navy);
+      font-weight: 500;
+    }
+
+    /* 6. EXCEL & OFFICE TOOLS */
+    .tools-section {
+      padding: 80px 20px;
+    }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    .tool-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 32px 24px;
+      transition: var(--trans);
+    }
+    .tool-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(26, 31, 60, 0.15);
+    }
+    .tool-emoji {
+      font-size: 46px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .tool-name {
+      font-size: 23px;
+      color: var(--navy);
+      margin-bottom: 22px;
+      font-weight: 700;
+    }
+    .checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--navy);
+      font-weight: 500;
+    }
+    .checkmark-svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+    .checkmark-circle {
+      stroke-dasharray: 63;
+      stroke-dashoffset: 63;
+      transition: stroke-dashoffset 0.4s ease;
+    }
+    .checkmark-check {
+      stroke-dasharray: 20;
+      stroke-dashoffset: 20;
+      transition: stroke-dashoffset 0.3s ease 0.2s;
+    }
+    .tool-card:hover .checkmark-check {
+      stroke-dashoffset: 0;
+    }
+    .tool-card:hover .checkmark-circle {
+      stroke-dashoffset: 0;
+    }
+
+    /* 7. FEATURED CAROUSEL */
+    .carousel-section {
+      padding: 80px 20px;
+      background: rgba(26, 31, 60, 0.02);
+    }
+    .carousel-container {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .carousel-track-wrapper {
+      overflow: hidden;
+      width: 100%;
+      padding: 10px 0;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      gap: 30px;
+    }
+    .carousel-slide {
+      flex: 0 0 100%;
+    }
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid rgba(26, 31, 60, 0.08);
+      box-shadow: var(--shadow);
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: var(--trans);
+    }
+    .carousel-arrow:hover {
+      background: var(--coral);
+      color: #fff;
+      border-color: var(--coral);
+    }
+    .carousel-arrow.prev {
+      right: -25px;
+    }
+    .carousel-arrow.next {
+      left: -25px;
+    }
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 30px;
+    }
+    .carousel-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(26, 31, 60, 0.2);
+      border: none;
+      cursor: pointer;
+      transition: var(--trans);
+    }
+    .carousel-dot.active {
+      background: var(--coral);
+      transform: scale(1.25);
+    }
+
+    @media (max-width: 900px) {
+      .carousel-arrow.prev {
+        right: -10px;
+      }
+      .carousel-arrow.next {
+        left: -10px;
+      }
+    }
+
+    /* 8. TESTIMONIALS */
+    .testimonials-section {
+      padding: 80px 20px;
+      background: rgba(78, 205, 196, 0.02);
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    .testimonial-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 32px;
+      transition: var(--trans);
+    }
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(26, 31, 60, 0.15);
+    }
+    .testimonial-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 17px;
+    }
+    .avatar-1 {
+      background: linear-gradient(135deg, var(--coral), var(--teal));
+    }
+    .avatar-2 {
+      background: linear-gradient(135deg, var(--teal), var(--navy));
+    }
+    .avatar-3 {
+      background: linear-gradient(135deg, var(--coral), var(--navy));
+    }
+    .student-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .student-name {
+      font-size: 18px;
+      color: var(--navy);
+      font-weight: 700;
+    }
+    .stars {
+      color: #FFD700;
+      font-size: 15px;
+      letter-spacing: 2px;
+    }
+    .testimonial-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(26, 31, 60, 0.85);
+      font-style: italic;
+    }
+
+    /* 9. NEWSLETTER BANNER */
+    .newsletter-section {
+      padding: 85px 20px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--teal) 100%);
+      color: #fff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .newsletter-container {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .newsletter-title {
+      font-size: 38px;
+      margin-bottom: 12px;
+      color: #fff;
+      font-weight: 900;
+    }
+    .newsletter-subtext {
+      font-size: 18px;
+      opacity: 0.9;
+      margin-bottom: 35px;
+    }
+    .newsletter-form {
+      display: flex;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 6px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(8px);
+    }
+    .newsletter-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 12px 22px;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
+    .newsletter-input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .btn-subscribe {
+      background: var(--coral);
+      color: #fff;
+      border: none;
+      padding: 12px 34px;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: var(--trans);
+      min-height: 44px;
+    }
+    .btn-subscribe:hover {
+      background: #ff5252;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    }
+
+    @media (max-width: 600px) {
+      .newsletter-form {
+        flex-direction: column;
+        background: transparent;
+        border: none;
+        padding: 0;
+        gap: 15px;
+      }
+      .newsletter-input {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: var(--radius-pill);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        text-align: center;
+      }
+      .btn-subscribe {
+        width: 100%;
+      }
+    }
+
+    /* Toast Notification */
+    .toast-notification {
+      position: fixed;
+      bottom: -100px;
+      left: 30px;
+      background: var(--navy);
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      border-left: 5px solid var(--teal);
+      z-index: 2000;
+      transition: bottom 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.5s;
+      opacity: 0;
+      font-weight: 700;
+    }
+    .toast-notification.show {
+      bottom: 30px;
+      opacity: 1;
+    }
+
+    /* 10. FOOTER */
+    .footer-section {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.8);
+      padding: 80px 20px 40px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      text-decoration: none;
+    }
+    .footer-tagline {
+      font-size: 16px;
+      opacity: 0.8;
+      font-weight: 500;
+    }
+    .social-row {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .social-icon {
+      color: rgba(255, 255, 255, 0.8);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--trans);
+    }
+    .social-icon:hover {
+      background: var(--coral);
+      color: #fff;
+      transform: translateY(-3px);
+    }
+    .social-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+    .footer-col-title {
+      font-size: 18px;
+      color: #fff;
+      margin-bottom: 22px;
+      font-weight: 700;
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 15px;
+      transition: var(--trans);
+      display: inline-block;
+    }
+    .footer-links a:hover {
+      color: var(--teal);
+      transform: translateX(-6px);
+    }
+    .footer-contact-info {
+      display: flex;
+      gap: 30px;
+      font-size: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    .footer-divider {
+      border: 0;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      margin-bottom: 35px;
+    }
+    .footer-bottom {
+      text-align: center;
+      font-size: 14px;
+      opacity: 0.6;
+    }
+
+    /* RESPONSIVE BREAKPOINTS */
+    /* 600px breakpoint */
+    @media (min-width: 600px) {
+      .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .languages-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* 900px breakpoint */
+    @media (min-width: 900px) {
+      .courses-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .languages-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .testimonials-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .carousel-slide {
+        flex: 0 0 calc((100% - 60px) / 3);
+      }
+      .footer-grid {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+      }
+    }
+
+    /* 1200px breakpoint */
+    @media (min-width: 1200px) {
+      .languages-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .tools-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. STICKY NAVBAR -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="#hero" class="logo">EduPath 🎓</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#hero" class="nav-link active">الرئيسية</a>
+        <a href="#courses" class="nav-link">الكورسات</a>
+        <a href="#languages" class="nav-link">اللغات</a>
+        <a href="#tools" class="nav-link">الأدوات</a>
+        <a href="#about" class="nav-link">من نحن</a>
+        <div class="auth-buttons-mobile" id="authButtonsMobile">
+          <a href="/login" class="nav-link-login-mobile">تسجيل الدخول</a>
+          <a href="/signup" class="btn-cta-mobile">إنشاء حساب</a>
+        </div>
+      </nav>
+      <div class="auth-buttons" id="authButtons" style="display: flex; align-items: center; gap: 15px;">
+        <a href="/login" class="nav-link-login" style="font-weight: 600; color: var(--navy); text-decoration: none; font-size: 15px; transition: color var(--trans);">تسجيل الدخول</a>
+        <a href="/signup" class="btn-cta">إنشاء حساب</a>
+      </div>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 2. HERO SECTION -->
+    <section id="hero" class="hero-section">
+      <div class="floating-shape shape-1"></div>
+      <div class="floating-shape shape-2"></div>
+      <div class="floating-shape shape-3"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">تعلّم. طوّر. انطلق.</h1>
+        <p class="hero-subtext">منصة EduPath توفر لك أفضل الكورسات في البرمجة والتصميم والأدوات المكتبية — تعلّم بالسرعة التي تناسبك.</p>
+        <div class="hero-buttons">
+          <a href="#courses" class="btn btn-coral">استعرض الكورسات</a>
+          <a href="#about" class="btn btn-outline">شاهد كيف يعمل</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. STATS BAR -->
+    <section class="stats-bar">
+      <div class="stats-container">
+        <div class="stat-item">
+          <div class="stat-icon">🎓</div>
+          <div class="stat-number-wrapper">
+            <span class="stat-number" data-target="15000">0</span>
+            <span class="stat-plus">+</span>
+          </div>
+          <div class="stat-label">طالب</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">📚</div>
+          <div class="stat-number-wrapper">
+            <span class="stat-number" data-target="120">0</span>
+            <span class="stat-plus">+</span>
+          </div>
+          <div class="stat-label">كورس</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">🌍</div>
+          <div class="stat-number-wrapper">
+            <span class="stat-number" data-target="12">0</span>
+          </div>
+          <div class="stat-label">لغة برمجة</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. COURSE CATEGORIES -->
+    <section id="courses" class="courses-section">
+      <div class="section-container">
+        <h2 class="section-title">استعرض الكورسات</h2>
+        
+        <div class="filter-pills-wrapper">
+          <div class="filter-pills">
+            <button class="filter-pill active" data-filter="all">الكل</button>
+            <button class="filter-pill" data-filter="programming">البرمجة</button>
+            <button class="filter-pill" data-filter="office">إكسل وأوفيس</button>
+            <button class="filter-pill" data-filter="design">التصميم</button>
+            <button class="filter-pill" data-filter="data">البيانات</button>
+            <button class="filter-pill" data-filter="languages">اللغات</button>
+          </div>
+        </div>
+
+        <div class="courses-grid" id="coursesGrid">
+          <!-- Course Card 1 -->
+          <div class="course-card" data-category="programming">
+            <div class="course-header">
+              <span class="course-icon">🐍</span>
+              <span class="course-badge badge-beginner">مبتدئ</span>
+            </div>
+            <h3 class="course-title">أساسيات Python</h3>
+            <p class="course-duration">⏱️ 8 ساعات</p>
+            <div class="course-progress-wrapper">
+              <div class="course-progress-bar" style="width: 45%;"></div>
+            </div>
+            <div class="course-progress-text">اكتمال الكورس: 45%</div>
+            <button class="btn-enroll">سجّل الآن</button>
+          </div>
+
+          <!-- Course Card 2 -->
+          <div class="course-card" data-category="programming">
+            <div class="course-header">
+              <span class="course-icon">⚡</span>
+              <span class="course-badge badge-intermediate">متوسط</span>
+            </div>
+            <h3 class="course-title">JavaScript الحديث</h3>
+            <p class="course-duration">⏱️ 12 ساعة</p>
+            <div class="course-progress-wrapper">
+              <div class="course-progress-bar" style="width: 70%;"></div>
+            </div>
+            <div class="course-progress-text">اكتمال الكورس: 70%</div>
+            <button class="btn-enroll">سجّل الآن</button>
+          </div>
+
+          <!-- Course Card 3 -->
+          <div class="course-card" data-category="office">
+            <div class="course-header">
+              <span class="course-icon">📊</span>
+              <span class="course-badge badge-beginner">مبتدئ</span>
+            </div>
+            <h3 class="course-title">Excel من الصفر للاحتراف</h3>
+            <p class="course-duration">⏱️ 6 ساعات</p>
+            <div class="course-progress-wrapper">
+              <div class="course-progress-bar" style="width: 35%;"></div>
+            </div>
+            <div class="course-progress-text">اكتمال الكورس: 35%</div>
+            <button class="btn-enroll">سجّل الآن</button>
+          </div>
+
+          <!-- Course Card 4 -->
+          <div class="course-card" data-category="design">
+            <div class="course-header">
+              <span class="course-icon">🎨</span>
+              <span class="course-badge badge-intermediate">متوسط</span>
+            </div>
+            <h3 class="course-title">تصميم UI بـ Figma</h3>
+            <p class="course-duration">⏱️ 10 ساعات</p>
+            <div class="course-progress-wrapper">
+              <div class="course-progress-bar" style="width: 60%;"></div>
+            </div>
+            <div class="course-progress-text">اكتمال الكورس: 60%</div>
+            <button class="btn-enroll">سجّل الآن</button>
+          </div>
+
+          <!-- Course Card 5 -->
+          <div class="course-card" data-category="data">
+            <div class="course-header">
+              <span class="course-icon">🗄️</span>
+              <span class="course-badge badge-advanced">متقدم</span>
+            </div>
+            <h3 class="course-title">تحليل البيانات بـ SQL</h3>
+            <p class="course-duration">⏱️ 14 ساعة</p>
+            <div class="course-progress-wrapper">
+              <div class="course-progress-bar" style="width: 80%;"></div>
+            </div>
+            <div class="course-progress-text">اكتمال الكورس: 80%</div>
+            <button class="btn-enroll">سجّل الآن</button>
+          </div>
+
+          <!-- Course Card 6 -->
+          <div class="course-card" data-category="languages">
+            <div class="course-header">
+              <span class="course-icon">🇬🇧</span>
+              <span class="course-badge badge-intermediate">متوسط</span>
+            </div>
+            <h3 class="course-title">اللغة الإنجليزية B2</h3>
+            <p class="course-duration">⏱️ 20 ساعة</p>
+            <div class="course-progress-wrapper">
+              <div class="course-progress-bar" style="width: 55%;"></div>
+            </div>
+            <div class="course-progress-text">اكتمال الكورس: 55%</div>
+            <button class="btn-enroll">سجّل الآن</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. LANGUAGES PICKER -->
+    <section id="languages" class="languages-section">
+      <div class="section-container">
+        <h2 class="section-title">اختر لغتك وابدأ رحلتك</h2>
+        <div class="languages-grid">
+          <!-- Lang Card 1 -->
+          <div class="lang-card">
+            <div class="lang-card-inner">
+              <div class="lang-card-front">
+                <span class="lang-emoji">🐍</span>
+                <h3 class="lang-name">Python</h3>
+                <p class="lang-desc">اللغة الأسهل للمبتدئين والذكاء الاصطناعي</p>
+                <span class="flip-hint">اضغط لمعرفة مسار التعلم 🔄</span>
+              </div>
+              <div class="lang-card-back">
+                <h4 class="roadmap-title">مسار Python 🐍</h4>
+                <div class="roadmap-steps">
+                  <div class="roadmap-step">
+                    <span class="step-num">١</span>
+                    <span class="step-text">تعلّم الأساسيات والمتغيرات</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٢</span>
+                    <span class="step-text">فهم الدوال والكائنات OOP</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٣</span>
+                    <span class="step-text">تطبيقات الذكاء الاصطناعي والويب</span>
+                  </div>
+                </div>
+                <span class="flip-hint">العودة 🔄</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lang Card 2 -->
+          <div class="lang-card">
+            <div class="lang-card-inner">
+              <div class="lang-card-front">
+                <span class="lang-emoji">⚡</span>
+                <h3 class="lang-name">JavaScript</h3>
+                <p class="lang-desc">لغة الويب الأولى في العالم</p>
+                <span class="flip-hint">اضغط لمعرفة مسار التعلم 🔄</span>
+              </div>
+              <div class="lang-card-back">
+                <h4 class="roadmap-title">مسار JavaScript ⚡</h4>
+                <div class="roadmap-steps">
+                  <div class="roadmap-step">
+                    <span class="step-num">١</span>
+                    <span class="step-text">أساسيات الويب والـ DOM</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٢</span>
+                    <span class="step-text">الدوال غير المتزامنة Async/Fetch</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٣</span>
+                    <span class="step-text">بناء تطبيقات متكاملة React/Node</span>
+                  </div>
+                </div>
+                <span class="flip-hint">العودة 🔄</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lang Card 3 -->
+          <div class="lang-card">
+            <div class="lang-card-inner">
+              <div class="lang-card-front">
+                <span class="lang-emoji">☕</span>
+                <h3 class="lang-name">Java</h3>
+                <p class="lang-desc">قوة وموثوقية في كل مكان</p>
+                <span class="flip-hint">اضغط لمعرفة مسار التعلم 🔄</span>
+              </div>
+              <div class="lang-card-back">
+                <h4 class="roadmap-title">مسار Java ☕</h4>
+                <div class="roadmap-steps">
+                  <div class="roadmap-step">
+                    <span class="step-num">١</span>
+                    <span class="step-text">البرمجة كائنية التوجه OOP</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٢</span>
+                    <span class="step-text">إدارة الذاكرة والـ Collections</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٣</span>
+                    <span class="step-text">تطبيقات الأندرويد والخوادم</span>
+                  </div>
+                </div>
+                <span class="flip-hint">العودة 🔄</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lang Card 4 -->
+          <div class="lang-card">
+            <div class="lang-card-inner">
+              <div class="lang-card-front">
+                <span class="lang-emoji">⚙️</span>
+                <h3 class="lang-name">C++</h3>
+                <p class="lang-desc">سرعة وأداء لا يُضاهى</p>
+                <span class="flip-hint">اضغط لمعرفة مسار التعلم 🔄</span>
+              </div>
+              <div class="lang-card-back">
+                <h4 class="roadmap-title">مسار C++ ⚙️</h4>
+                <div class="roadmap-steps">
+                  <div class="roadmap-step">
+                    <span class="step-num">١</span>
+                    <span class="step-text">المؤشرات وإدارة الذاكرة Pointers</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٢</span>
+                    <span class="step-text">هياكل البيانات والخوارزميات</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٣</span>
+                    <span class="step-text">برمجة الأنظمة ومحركات الألعاب</span>
+                  </div>
+                </div>
+                <span class="flip-hint">العودة 🔄</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lang Card 5 -->
+          <div class="lang-card">
+            <div class="lang-card-inner">
+              <div class="lang-card-front">
+                <span class="lang-emoji">🎯</span>
+                <h3 class="lang-name">Dart</h3>
+                <p class="lang-desc">لتطبيقات Flutter المحترفة</p>
+                <span class="flip-hint">اضغط لمعرفة مسار التعلم 🔄</span>
+              </div>
+              <div class="lang-card-back">
+                <h4 class="roadmap-title">مسار Dart 🎯</h4>
+                <div class="roadmap-steps">
+                  <div class="roadmap-step">
+                    <span class="step-num">١</span>
+                    <span class="step-text">أساسيات لغة Dart وهياكلها</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٢</span>
+                    <span class="step-text">تصميم واجهات Flutter Widgets</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٣</span>
+                    <span class="step-text">إدارة الحالة State Management</span>
+                  </div>
+                </div>
+                <span class="flip-hint">العودة 🔄</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lang Card 6 -->
+          <div class="lang-card">
+            <div class="lang-card-inner">
+              <div class="lang-card-front">
+                <span class="lang-emoji">🗄️</span>
+                <h3 class="lang-name">SQL</h3>
+                <p class="lang-desc">تحكّم كامل في البيانات</p>
+                <span class="flip-hint">اضغط لمعرفة مسار التعلم 🔄</span>
+              </div>
+              <div class="lang-card-back">
+                <h4 class="roadmap-title">مسار SQL 🗄️</h4>
+                <div class="roadmap-steps">
+                  <div class="roadmap-step">
+                    <span class="step-num">١</span>
+                    <span class="step-text">الاستعلامات الأساسية والتصفية</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٢</span>
+                    <span class="step-text">الربط والدمج والـ Subqueries</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٣</span>
+                    <span class="step-text">تصميم وهيكلة قواعد البيانات</span>
+                  </div>
+                </div>
+                <span class="flip-hint">العودة 🔄</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lang Card 7 -->
+          <div class="lang-card">
+            <div class="lang-card-inner">
+              <div class="lang-card-front">
+                <span class="lang-emoji">🌐</span>
+                <h3 class="lang-name">HTML & CSS</h3>
+                <p class="lang-desc">أساس كل موقع ويب</p>
+                <span class="flip-hint">اضغط لمعرفة مسار التعلم 🔄</span>
+              </div>
+              <div class="lang-card-back">
+                <h4 class="roadmap-title">مسار الويب 🌐</h4>
+                <div class="roadmap-steps">
+                  <div class="roadmap-step">
+                    <span class="step-num">١</span>
+                    <span class="step-text">هيكلة الصفحات HTML5 الدلالي</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٢</span>
+                    <span class="step-text">تنسيق الواجهات Flexbox & Grid</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٣</span>
+                    <span class="step-text">التصميم المتجاوب والحركة</span>
+                  </div>
+                </div>
+                <span class="flip-hint">العودة 🔄</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lang Card 8 -->
+          <div class="lang-card">
+            <div class="lang-card-inner">
+              <div class="lang-card-front">
+                <span class="lang-emoji">📘</span>
+                <h3 class="lang-name">TypeScript</h3>
+                <p class="lang-desc">JavaScript بقواعد أقوى</p>
+                <span class="flip-hint">اضغط لمعرفة مسار التعلم 🔄</span>
+              </div>
+              <div class="lang-card-back">
+                <h4 class="roadmap-title">مسار TS 📘</h4>
+                <div class="roadmap-steps">
+                  <div class="roadmap-step">
+                    <span class="step-num">١</span>
+                    <span class="step-text">مفاهيم الأنواع والواجهات Static Types</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٢</span>
+                    <span class="step-text">دمج TypeScript مع React و Node</span>
+                  </div>
+                  <div class="roadmap-step">
+                    <span class="step-num">٣</span>
+                    <span class="step-text">كتابة كود آمن للمشاريع الكبرى</span>
+                  </div>
+                </div>
+                <span class="flip-hint">العودة 🔄</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. EXCEL & OFFICE TOOLS -->
+    <section id="tools" class="tools-section">
+      <div class="section-container">
+        <h2 class="section-title">أدوات الأوفيس الاحترافية</h2>
+        <div class="tools-grid">
+          <!-- Tool Card 1 -->
+          <div class="tool-card">
+            <span class="tool-emoji">📊</span>
+            <h3 class="tool-name">Excel</h3>
+            <ul class="checklist">
+              <li class="checklist-item">
+                <svg class="checkmark-svg" viewBox="0 0 24 24">
+                  <circle class="checkmark-circle" cx="12" cy="12" r="10" fill="none" stroke="#4ECDC4" stroke-width="2"/>
+                  <path class="checkmark-check" fill="none" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 12l4 4 8-8"/>
+                </svg>
+                <span>الجداول الحسابية المتقدمة</span>
+              </li>
+              <li class="checklist-item">
+                <svg class="checkmark-svg" viewBox="0 0 24 24">
+                  <circle class="checkmark-circle" cx="12" cy="12" r="10" fill="none" stroke="#4ECDC4" stroke-width="2"/>
+                  <path class="checkmark-check" fill="none" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 12l4 4 8-8"/>
+                </svg>
+                <span>المعادلات والـ Pivot Tables</span>
+              </li>
+              <li class="checklist-item">
+                <svg class="checkmark-svg" viewBox="0 0 24 24">
+                  <circle class="checkmark-circle" cx="12" cy="12" r="10" fill="none" stroke="#4ECDC4" stroke-width="2"/>
+                  <path class="checkmark-check" fill="none" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 12l4 4 8-8"/>
+                </svg>
+                <span>داشبورد وتصور البيانات</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Tool Card 2 -->
+          <div class="tool-card">
+            <span class="tool-emoji">📝</span>
+            <h3 class="tool-name">Word</h3>
+            <ul class="checklist">
+              <li class="checklist-item">
+                <svg class="checkmark-svg" viewBox="0 0 24 24">
+                  <circle class="checkmark-circle" cx="12" cy="12" r="10" fill="none" stroke="#4ECDC4" stroke-width="2"/>
+                  <path class="checkmark-check" fill="none" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 12l4 4 8-8"/>
+                </svg>
+                <span>تنسيق التقارير والكتب الاحترافية</span>
+              </li>
+              <li class="checklist-item">
+                <svg class="checkmark-svg" viewBox="0 0 24 24">
+                  <circle class="checkmark-circle" cx="12" cy="12" r="10" fill="none" stroke="#4ECDC4" stroke-width="2"/>
+                  <path class="checkmark-check" fill="none" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 12l4 4 8-8"/>
+                </svg>
+                <span>دمج المراسلات وإعداد النماذج</span>
+              </li>
+              <li class="checklist-item">
+                <svg class="checkmark-svg" viewBox="0 0 24 24">
+                  <circle class="checkmark-circle" cx="12" cy="12" r="10" fill="none" stroke="#4ECDC4" stroke-width="2"/>
+                  <path class="checkmark-check" fill="none" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 12l4 4 8-8"/>
+                </svg>
+                <span>تصميم القوالب الذكية الخاصة بك</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Tool Card 3 -->
+          <div class="tool-card">
+            <span class="tool-emoji">📊</span>
+            <h3 class="tool-name">PowerPoint</h3>
+            <ul class="checklist">
+              <li class="checklist-item">
+                <svg class="checkmark-svg" viewBox="0 0 24 24">
+                  <circle class="checkmark-circle" cx="12" cy="12" r="10" fill="none" stroke="#4ECDC4" stroke-width="2"/>
+                  <path class="checkmark-check" fill="none" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 12l4 4 8-8"/>
+                </svg>
+                <span>تصميم شرائح وعروض مبهرة</span>
+              </li>
+              <li class="checklist-item">
+                <svg class="checkmark-svg" viewBox="0 0 24 24">
+                  <circle class="checkmark-circle" cx="12" cy="12" r="10" fill="none" stroke="#4ECDC4" stroke-width="2"/>
+                  <path class="checkmark-check" fill="none" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 12l4 4 8-8"/>
+                </svg>
+                <span>تحريكات ومؤثرات Morph متقدمة</span>
+              </li>
+              <li class="checklist-item">
+                <svg class="checkmark-svg" viewBox="0 0 24 24">
+                  <circle class="checkmark-circle" cx="12" cy="12" r="10" fill="none" stroke="#4ECDC4" stroke-width="2"/>
+                  <path class="checkmark-check" fill="none" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 12l4 4 8-8"/>
+                </svg>
+                <span>تفاعلية وعرض بيانات مميز</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Tool Card 4 -->
+          <div class="tool-card">
+            <span class="tool-emoji">🟢</span>
+            <h3 class="tool-name">Google Sheets</h3>
+            <ul class="checklist">
+              <li class="checklist-item">
+                <svg class="checkmark-svg" viewBox="0 0 24 24">
+                  <circle class="checkmark-circle" cx="12" cy="12" r="10" fill="none" stroke="#4ECDC4" stroke-width="2"/>
+                  <path class="checkmark-check" fill="none" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 12l4 4 8-8"/>
+                </svg>
+                <span>التعاون السحابي والمشاركة الفورية</span>
+              </li>
+              <li class="checklist-item">
+                <svg class="checkmark-svg" viewBox="0 0 24 24">
+                  <circle class="checkmark-circle" cx="12" cy="12" r="10" fill="none" stroke="#4ECDC4" stroke-width="2"/>
+                  <path class="checkmark-check" fill="none" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 12l4 4 8-8"/>
+                </svg>
+                <span>استيراد وتصفية البيانات QUERY</span>
+              </li>
+              <li class="checklist-item">
+                <svg class="checkmark-svg" viewBox="0 0 24 24">
+                  <circle class="checkmark-circle" cx="12" cy="12" r="10" fill="none" stroke="#4ECDC4" stroke-width="2"/>
+                  <path class="checkmark-check" fill="none" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 12l4 4 8-8"/>
+                </svg>
+                <span>تطوير نصوص Google Apps Script</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. FEATURED CAROUSEL -->
+    <section class="carousel-section">
+      <div class="section-container">
+        <h2 class="section-title">الكورسات المميزة</h2>
+        
+        <div class="carousel-container">
+          <div class="carousel-track-wrapper">
+            <div class="carousel-track" id="carouselTrack">
+              <!-- Slide 1 -->
+              <div class="carousel-slide">
+                <div class="course-card">
+                  <div class="course-header">
+                    <span class="course-icon">🤖</span>
+                    <span class="course-badge badge-advanced">متقدم</span>
+                  </div>
+                  <h3 class="course-title">الذكاء الاصطناعي وتعلم الآلة</h3>
+                  <p class="course-duration">⏱️ 24 ساعة</p>
+                  <div class="course-progress-wrapper">
+                    <div class="course-progress-bar" style="width: 65%;"></div>
+                  </div>
+                  <div class="course-progress-text">اكتمال الكورس: 65%</div>
+                  <button class="btn-enroll">سجّل الآن</button>
+                </div>
+              </div>
+              
+              <!-- Slide 2 -->
+              <div class="carousel-slide">
+                <div class="course-card">
+                  <div class="course-header">
+                    <span class="course-icon">📱</span>
+                    <span class="course-badge badge-intermediate">متوسط</span>
+                  </div>
+                  <h3 class="course-title">تطوير تطبيقات Flutter الهجينة</h3>
+                  <p class="course-duration">⏱️ 18 ساعة</p>
+                  <div class="course-progress-wrapper">
+                    <div class="course-progress-bar" style="width: 50%;"></div>
+                  </div>
+                  <div class="course-progress-text">اكتمال الكورس: 50%</div>
+                  <button class="btn-enroll">سجّل الآن</button>
+                </div>
+              </div>
+
+              <!-- Slide 3 -->
+              <div class="carousel-slide">
+                <div class="course-card">
+                  <div class="course-header">
+                    <span class="course-icon">🔐</span>
+                    <span class="course-badge badge-advanced">متقدم</span>
+                  </div>
+                  <h3 class="course-title">الأمن السيبراني وحماية الشبكات</h3>
+                  <p class="course-duration">⏱️ 30 ساعة</p>
+                  <div class="course-progress-wrapper">
+                    <div class="course-progress-bar" style="width: 75%;"></div>
+                  </div>
+                  <div class="course-progress-text">اكتمال الكورس: 75%</div>
+                  <button class="btn-enroll">سجّل الآن</button>
+                </div>
+              </div>
+
+              <!-- Slide 4 -->
+              <div class="carousel-slide">
+                <div class="course-card">
+                  <div class="course-header">
+                    <span class="course-icon">💻</span>
+                    <span class="course-badge badge-beginner">مبتدئ</span>
+                  </div>
+                  <h3 class="course-title">تطوير الويب المتكامل Full-Stack</h3>
+                  <p class="course-duration">⏱️ 40 ساعة</p>
+                  <div class="course-progress-wrapper">
+                    <div class="course-progress-bar" style="width: 85%;"></div>
+                  </div>
+                  <div class="course-progress-text">اكتمال الكورس: 85%</div>
+                  <button class="btn-enroll">سجّل الآن</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Carousel Arrows (RTL) -->
+          <button class="carousel-arrow prev" id="carouselPrevBtn" aria-label="Previous">
+            <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" fill="currentColor"/></svg>
+          </button>
+          <button class="carousel-arrow next" id="carouselNextBtn" aria-label="Next">
+            <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" fill="currentColor"/></svg>
+          </button>
+
+          <!-- Dot Indicators -->
+          <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. TESTIMONIALS -->
+    <section class="testimonials-section">
+      <div class="section-container">
+        <h2 class="section-title">ماذا يقول طلابنا</h2>
+        <div class="testimonials-grid">
+          <!-- Testimonial 1 -->
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="avatar avatar-1">أ م</div>
+              <div class="student-info">
+                <h3 class="student-name">أحمد محمد</h3>
+                <span class="stars">★★★★★</span>
+              </div>
+            </div>
+            <p class="testimonial-text">"كورس Python غيّر مساري المهني بالكامل، الشرح عملي وواضح والتمارين مفيدة جداً لتطبيق المفاهيم."</p>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="avatar avatar-2">س ع</div>
+              <div class="student-info">
+                <h3 class="student-name">سارة علي</h3>
+                <span class="stars">★★★★★</span>
+              </div>
+            </div>
+            <p class="testimonial-text">"أخيراً فهمت Excel بطريقة عملية ومبسّطة! المنصة تقدم محتوى رائع ومنظم ويساعدك على التطوير الفعلي."</p>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="avatar avatar-3">ك ح</div>
+              <div class="student-info">
+                <h3 class="student-name">كريم حسن</h3>
+                <span class="stars">★★★★☆</span>
+              </div>
+            </div>
+            <p class="testimonial-text">"أفضل منصة تعليمية عربية جربتها. سهولة في الاستخدام، تنوع في المحاضرات، ودعم فني متواصل ومساعد."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. NEWSLETTER BANNER -->
+    <section id="newsletter" class="newsletter-section">
+      <div class="newsletter-container">
+        <h2 class="newsletter-title">ابدأ رحلة التعلّم اليوم</h2>
+        <p class="newsletter-subtext">اشترك واحصل على أول كورس مجاناً</p>
+        <form class="newsletter-form" id="newsletterForm" onsubmit="event.preventDefault();">
+          <input type="email" class="newsletter-input" id="newsletterEmail" placeholder="أدخل بريدك الإلكتروني" required>
+          <button type="submit" class="btn-subscribe" id="newsletterSubmitBtn">اشترك</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toastNotification">
+      ✅ تم الاشتراك بنجاح!
+    </div>
+  </main>
+
+  <!-- 10. FOOTER -->
+  <footer class="footer-section" id="about">
+    <div class="section-container">
+      <div class="footer-grid">
+        <!-- Brand / Tagline -->
+        <div class="footer-brand">
+          <a href="#hero" class="footer-logo">EduPath 🎓</a>
+          <p class="footer-tagline">تعلّم بلا حدود</p>
+          <div class="social-row">
+            <!-- Twitter -->
+            <a href="#" class="social-icon" aria-label="Twitter">
+              <svg viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" fill="currentColor"/></svg>
+            </a>
+            <!-- LinkedIn -->
+            <a href="#" class="social-icon" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="currentColor"/></svg>
+            </a>
+            <!-- YouTube -->
+            <a href="#" class="social-icon" aria-label="YouTube">
+              <svg viewBox="0 0 24 24"><path d="M23.498 6.163a3.003 3.003 0 00-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.507a3.003 3.003 0 00-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 002.11 2.11c1.871.507 9.388.507 9.388.507s7.517 0 9.388-.507a3.003 3.003 0 002.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="currentColor"/></svg>
+            </a>
+            <!-- Instagram -->
+            <a href="#" class="social-icon" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" fill="currentColor"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Platform Links -->
+        <div class="footer-links-col">
+          <h4 class="footer-col-title">المنصة</h4>
+          <ul class="footer-links">
+            <li><a href="#about">عن EduPath</a></li>
+            <li><a href="#hero">كيف تعمل</a></li>
+            <li><a href="#courses">شركاؤنا</a></li>
+            <li><a href="#about">وظائف</a></li>
+          </ul>
+        </div>
+
+        <!-- Course Categories Links -->
+        <div class="footer-links-col">
+          <h4 class="footer-col-title">الكورسات</h4>
+          <ul class="footer-links">
+            <li><a href="#courses">البرمجة</a></li>
+            <li><a href="#courses">التصميم</a></li>
+            <li><a href="#courses">الأوفيس</a></li>
+            <li><a href="#courses">البيانات</a></li>
+          </ul>
+        </div>
+
+        <!-- Support Links -->
+        <div class="footer-links-col">
+          <h4 class="footer-col-title">الدعم</h4>
+          <ul class="footer-links">
+            <li><a href="#about">مركز المساعدة</a></li>
+            <li><a href="#newsletter">تواصل معنا</a></li>
+            <li><a href="#about">سياسة الخصوصية</a></li>
+            <li><a href="#about">الشروط</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-contact-info">
+        <span>📧 hossa867@gmail.com</span>
+        <span>📞 01013678420</span>
+      </div>
+
+      <hr class="footer-divider">
+      
+      <div class="footer-bottom">
+        <p class="copyright">© 2025 EduPath — جميع الحقوق محفوظة</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initNavbar();
+      initScrollspy();
+      initCounters();
+      initFilter();
+      initFlipCards();
+      initCarousel();
+      initNewsletter();
+      initSmoothScroll();
+      initEnrollment();
+    });
+
+    // 1. Navbar Scrolled Shadow + Mobile Toggle
+    function initNavbar() {
+      const header = document.querySelector('.header');
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      const navLinks = document.getElementById('navLinks');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
+    }
+
+    // 2. Active nav link highlight on scroll
+    function initScrollspy() {
+      const sections = document.querySelectorAll('section, footer');
+      const navLinks = document.querySelectorAll('.nav-link');
+      const offset = 100;
+
+      window.addEventListener('scroll', () => {
+        let current = '';
+
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (window.pageYOffset >= (sectionTop - offset)) {
+            const id = section.getAttribute('id');
+            if (id) {
+              current = id;
+            }
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          const href = link.getAttribute('href');
+          if (href === `#${current}`) {
+            link.classList.add('active');
+          }
+        });
+      });
+    }
+
+    // 3. Stats Counter Count-up Animation
+    function initCounters() {
+      const counters = document.querySelectorAll('.stat-number');
+      const duration = 1500;
+
+      const animateCount = (el) => {
+        const target = parseInt(el.getAttribute('data-target'), 10);
+        const startTime = performance.now();
+
+        const updateCount = (currentTime) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          // Easing function: easeOutQuad
+          const easeProgress = progress * (2 - progress);
+          const currentValue = Math.floor(easeProgress * target);
+          
+          el.textContent = currentValue.toLocaleString('en-US');
+
+          if (progress < 1) {
+            requestAnimationFrame(updateCount);
+          } else {
+            el.textContent = target.toLocaleString('en-US');
+          }
+        };
+
+        requestAnimationFrame(updateCount);
+      };
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateCount(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      counters.forEach(counter => observer.observe(counter));
+    }
+
+    // 4. Course Filter Pill Animation
+    function initFilter() {
+      const pills = document.querySelectorAll('.filter-pill');
+      const cards = document.querySelectorAll('.course-card');
+
+      pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          pills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+
+          const filterValue = pill.getAttribute('data-filter');
+
+          cards.forEach(card => {
+            const category = card.getAttribute('data-category');
+            const isMatch = filterValue === 'all' || category === filterValue;
+
+            if (isMatch) {
+              card.style.display = 'flex';
+              void card.offsetWidth; // Trigger reflow
+              card.style.opacity = '1';
+              card.style.transform = 'scale(1)';
+            } else {
+              card.style.opacity = '0';
+              card.style.transform = 'scale(0.95)';
+              setTimeout(() => {
+                if (card.style.opacity === '0') {
+                  card.style.display = 'none';
+                }
+              }, 300);
+            }
+          });
+        });
+      });
+    }
+
+    // 5. Language Flip Cards
+    function initFlipCards() {
+      const cards = document.querySelectorAll('.lang-card');
+      
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          card.classList.toggle('flipped');
+          
+          cards.forEach(otherCard => {
+            if (otherCard !== card && otherCard.classList.contains('flipped')) {
+              otherCard.classList.remove('flipped');
+            }
+          });
+        });
+      });
+    }
+
+    // 6. Featured Carousel
+    function initCarousel() {
+      const track = document.getElementById('carouselTrack');
+      const slides = Array.from(track.children);
+      const nextBtn = document.getElementById('carouselNextBtn');
+      const prevBtn = document.getElementById('carouselPrevBtn');
+      const dotsContainer = document.getElementById('carouselDots');
+      
+      let currentIndex = 0;
+      let autoPlayTimer = null;
+
+      const getMaxIndex = () => {
+        return window.innerWidth >= 900 ? slides.length - 3 : slides.length - 1;
+      };
+
+      const createDots = () => {
+        dotsContainer.innerHTML = '';
+        const maxIndex = getMaxIndex();
+        for (let i = 0; i <= maxIndex; i++) {
+          const dot = document.createElement('button');
+          dot.classList.add('carousel-dot');
+          if (i === currentIndex) dot.classList.add('active');
+          dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+          dot.addEventListener('click', () => {
+            clearInterval(autoPlayTimer);
+            goToSlide(i);
+            startAutoPlay();
+          });
+          dotsContainer.appendChild(dot);
+        }
+      };
+
+      const updateDots = () => {
+        const dots = Array.from(dotsContainer.children);
+        dots.forEach((dot, index) => {
+          if (index === currentIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      };
+
+      const goToSlide = (index) => {
+        const maxIndex = getMaxIndex();
+        if (index < 0) {
+          currentIndex = maxIndex;
+        } else if (index > maxIndex) {
+          currentIndex = 0;
+        } else {
+          currentIndex = index;
+        }
+
+        const isMobile = window.innerWidth < 900;
+        if (isMobile) {
+          track.style.transform = `translateX(calc(${currentIndex} * (100% + 30px)))`;
+        } else {
+          const slideWidth = slides[0].getBoundingClientRect().width;
+          const gap = 30;
+          const offset = currentIndex * (slideWidth + gap);
+          track.style.transform = `translateX(${offset}px)`;
+        }
+
+        updateDots();
+      };
+
+      const startAutoPlay = () => {
+        autoPlayTimer = setInterval(() => {
+          goToSlide(currentIndex + 1);
+        }, 4000);
+      };
+
+      nextBtn.addEventListener('click', () => {
+        clearInterval(autoPlayTimer);
+        goToSlide(currentIndex + 1);
+        startAutoPlay();
+      });
+
+      prevBtn.addEventListener('click', () => {
+        clearInterval(autoPlayTimer);
+        goToSlide(currentIndex - 1);
+        startAutoPlay();
+      });
+
+      window.addEventListener('resize', () => {
+        createDots();
+        const maxIndex = getMaxIndex();
+        if (currentIndex > maxIndex) {
+          currentIndex = maxIndex;
+        }
+        goToSlide(currentIndex);
+      });
+
+      createDots();
+      goToSlide(0);
+      startAutoPlay();
+    }
+
+    // 7. Newsletter Toast Notification
+    function initNewsletter() {
+      const form = document.getElementById('newsletterForm');
+      const emailInput = document.getElementById('newsletterEmail');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const emailValue = emailInput.value.trim();
+        
+        if (emailValue !== '') {
+          showToast("📬 تم الاشتراك بنشرتنا الإخبارية بنجاح! / Subscribed successfully!");
+          emailInput.value = '';
+        }
+      });
+    }
+
+    // 8. Smooth Anchor Scrolling
+    function initSmoothScroll() {
+      const links = document.querySelectorAll('a[href^="#"]');
+      links.forEach(link => {
+        link.addEventListener('click', function(e) {
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            e.preventDefault();
+            
+            const navLinks = document.getElementById('navLinks');
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            if (navLinks.classList.contains('active')) {
+              navLinks.classList.remove('active');
+              hamburgerBtn.classList.remove('active');
+            }
+
+            const offset = 80;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    }
+
+    // 9. Toast Helper
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      if (toast) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      }
+    }
+
+    // 10. Enroll button handler
+    function initEnrollment() {
+      const enrollBtns = document.querySelectorAll('.btn-enroll');
+      enrollBtns.forEach(btn => {
+        btn.addEventListener('click', async () => {
+          try {
+            const response = await fetch('/api/verify');
+            const data = await response.json();
+            if (response.ok && data.authenticated) {
+              showToast("🎉 تم تسجيلك في هذا الكورس بنجاح! / Enrolled in course successfully!");
+            } else {
+              showToast("🔒 يرجى تسجيل الدخول أولاً للتسجيل في الكورسات / Please log in first to enroll.");
+              setTimeout(() => {
+                window.location.href = '/login';
+              }, 2000);
+            }
+          } catch (err) {
+            showToast("🔒 يرجى تسجيل الدخول أولاً للتسجيل في الكورسات / Please log in first to enroll.");
+            setTimeout(() => {
+              window.location.href = '/login';
+            }, 2000);
+          }
+        });
+      });
+    }
+
+    // Integrate Auth State Check
+    (async function checkAuthState() {
+      try {
+        const response = await fetch('/api/verify');
+        const data = await response.json();
+        if (response.ok && data.authenticated) {
+          const authButtons = document.getElementById('authButtons');
+          const authButtonsMobile = document.getElementById('authButtonsMobile');
+          
+          const userName = data.user.name || 'المشرف';
+          const userStr = `<span style="font-size: 14px; color: var(--navy); font-weight: 600; font-family: 'Cairo', sans-serif; white-space: nowrap;">أهلاً، ${userName} 👋</span>`;
+          const adminBtn = data.user.role === 'admin' ? `<a href="/admin" class="btn-cta" style="background: var(--coral); box-shadow: 0 4px 10px rgba(255,107,107,0.25); border: none; text-decoration: none; white-space: nowrap;">لوحة التحكم</a>` : '';
+          const logoutBtn = `<button onclick="handleLogout()" class="btn-cta" style="background: var(--navy); border: none; white-space: nowrap; margin-right: 5px; margin-left: 5px;">خروج</button>`;
+          
+          if (authButtons) {
+            authButtons.innerHTML = `${userStr} ${adminBtn} ${logoutBtn}`;
+          }
+          if (authButtonsMobile) {
+            authButtonsMobile.innerHTML = `
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%;">
+                ${userStr}
+                ${data.user.role === 'admin' ? `<a href="/admin" class="btn-cta-mobile" style="width: 100%; background: var(--coral);">لوحة التحكم</a>` : ''}
+                <button onclick="handleLogout()" class="btn-cta-mobile" style="width: 100%; background: var(--navy); border: none;">تسجيل الخروج</button>
+              </div>
+            `;
+          }
+        }
+      } catch (err) {
+        console.log('Not logged in:', err);
+      }
+    })();
+
+    async function handleLogout() {
+      try {
+        const response = await fetch('/api/auth/logout', { method: 'POST' });
+        if (response.ok) {
+          window.location.reload();
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>

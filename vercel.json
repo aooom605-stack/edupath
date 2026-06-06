@@ -1,0 +1,10 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/public/index.html" },
+    { "source": "/admin", "destination": "/api/admin" },
+    { "source": "/login", "destination": "/public/login.html" },
+    { "source": "/signup", "destination": "/public/signup.html" },
+    { "source": "/assets/:path*", "destination": "/public/assets/:path*" }
+  ]
+}

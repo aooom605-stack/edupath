@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduPath Admin Signup | إنشاء حساب مشرف جديد</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:          #0F1117;
+      --card:        #1E2028;
+      --border:      #2A2D38;
+      --coral:       #FF6B6B;
+      --teal:        #4ECDC4;
+      --text:        #E8E9EF;
+      --muted:       #8B8FA8;
+      --danger:      #FF6B6B;
+      --success:     #6BCB77;
+      --radius:      12px;
+      --trans:       0.25s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 45px 35px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      text-align: center;
+      transition: var(--trans);
+    }
+
+    .login-logo {
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .login-subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    .info-msg {
+      color: var(--teal);
+      background: rgba(78, 205, 196, 0.08);
+      border: 1px solid rgba(78, 205, 196, 0.2);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 25px;
+      font-weight: 500;
+      display: none;
+    }
+
+    .error-msg {
+      color: var(--danger);
+      background: rgba(255, 107, 107, 0.08);
+      border: 1px solid rgba(255, 107, 107, 0.2);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 25px;
+      display: none;
+      font-weight: 500;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+      text-align: right;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+      transition: var(--trans);
+      text-align: right;
+    }
+
+    .form-group input:focus {
+      border-color: var(--coral);
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: var(--coral);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--trans);
+      margin-top: 10px;
+    }
+
+    .btn-login:hover {
+      background: #ff5252;
+      box-shadow: 0 4px 15px rgba(255,107,107,0.3);
+    }
+
+    .switch-auth {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .switch-auth a {
+      color: var(--coral);
+      text-decoration: none;
+      font-weight: 600;
+      margin-right: 5px;
+    }
+
+    .switch-auth a:hover {
+      text-decoration: underline;
+    }
+
+    .otp-display {
+      display: none;
+    }
+
+    .otp-input-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 25px 0;
+      direction: ltr;
+    }
+
+    .otp-input-container input {
+      width: 48px;
+      height: 54px;
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #fff;
+      outline: none;
+      transition: var(--trans);
+    }
+
+    .otp-input-container input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 10px rgba(78, 205, 196, 0.2);
+    }
+
+    .login-card.shake {
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-10px); }
+      40%, 80% { transform: translateX(10px); }
+    }
+
+    .text-center {
+      text-align: center;
+    }
+    
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 13px;
+      margin-top: 15px;
+      font-weight: 500;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      .login-card {
+        padding: 30px 20px;
+        max-width: 100%;
+      }
+      .login-logo {
+        font-size: 28px;
+      }
+      .btn-login, .form-group input {
+        padding: 12px;
+        font-size: 14px;
+      }
+      .otp-input-container {
+        gap: 6px;
+      }
+      .otp-input-container input {
+        width: 36px;
+        height: 46px;
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-card" id="signupCard">
+    <div class="login-logo">EduPath 🎓</div>
+    <div class="login-subtitle" id="formSubtitle">إنشاء حساب مشرف جديد / New Admin Signup</div>
+    
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="info-msg" id="infoMsg"></div>
+
+    <!-- STAGE 1: SIGNUP FORM -->
+    <form id="signupForm" onsubmit="handleSignupRequest(event)">
+      <div class="form-group">
+        <label for="nameInput">الاسم الكامل / Full Name</label>
+        <input type="text" id="nameInput" required placeholder="محمد أحمد" style="direction: rtl; text-align: right;">
+      </div>
+      <div class="form-group">
+        <label for="emailInput">البريد الإلكتروني / Email Address</label>
+        <input type="email" id="emailInput" required placeholder="admin@edupath.com" style="direction: ltr; text-align: left;">
+      </div>
+      <div class="form-group">
+        <label for="passwordInput">كلمة المرور / Password</label>
+        <input type="password" id="passwordInput" required placeholder="••••••••" style="direction: ltr; text-align: left;">
+      </div>
+      <button type="submit" class="btn-login" id="submitBtn">إنشاء حساب وإرسال الرمز / Sign Up & Send OTP</button>
+      
+      <div class="switch-auth">
+        لديك حساب بالفعل؟ / Already have an account? 
+        <a href="/login">تسجيل الدخول / Sign In</a>
+      </div>
+    </form>
+
+    <!-- STAGE 2: OTP VERIFICATION FORM (HIDDEN BY DEFAULT) -->
+    <div class="otp-display" id="otpSection">
+      <p style="font-size: 14px; color: var(--muted); line-height: 1.6;">
+        أدخل الرمز المكون من 6 أرقام المرسل إلى بريدك الإلكتروني لإكمال التسجيل.
+        <br>
+        <span style="color: var(--teal); font-weight: 500;" id="sentEmailText"></span>
+      </p>
+      
+      <form id="otpForm" onsubmit="handleOtpVerification(event)">
+        <div class="otp-input-container">
+          <input type="text" maxlength="1" oninput="moveNext(this, 1)" onkeydown="moveBack(this, 1)" id="otp1" required>
+          <input type="text" maxlength="1" oninput="moveNext(this, 2)" onkeydown="moveBack(this, 2)" id="otp2" required>
+          <input type="text" maxlength="1" oninput="moveNext(this, 3)" onkeydown="moveBack(this, 3)" id="otp3" required>
+          <input type="text" maxlength="1" oninput="moveNext(this, 4)" onkeydown="moveBack(this, 4)" id="otp4" required>
+          <input type="text" maxlength="1" oninput="moveNext(this, 5)" onkeydown="moveBack(this, 5)" id="otp5" required>
+          <input type="text" maxlength="1" oninput="moveNext(this, 6)" onkeydown="moveBack(this, 6)" id="otp6" required>
+        </div>
+        
+        <button type="submit" class="btn-login" id="verifyBtn" style="background: var(--teal);">تأكيد رمز التحقق / Verify Code</button>
+      </form>
+      
+      <button class="back-btn" onclick="showSignupForm()">تعديل البيانات أو العودة / Go Back</button>
+    </div>
+  </div>
+
+  <script>
+    let registeredEmail = "";
+
+    // OTP Inputs Navigation
+    function moveNext(current, index) {
+      if (current.value.length === 1 && index < 6) {
+        document.getElementById(`otp${index + 1}`).focus();
+      }
+    }
+
+    function moveBack(current, index) {
+      if (event.key === "Backspace" && current.value.length === 0 && index > 1) {
+        document.getElementById(`otp${index - 1}`).focus();
+      }
+    }
+
+    // Step 1: Submit signup form to request OTP
+    async function handleSignupRequest(e) {
+      e.preventDefault();
+      const name = document.getElementById('nameInput').value.trim();
+      const email = document.getElementById('emailInput').value.trim();
+      const password = document.getElementById('passwordInput').value.trim();
+      const card = document.getElementById('signupCard');
+      const errorMsg = document.getElementById('errorMsg');
+      const infoMsg = document.getElementById('infoMsg');
+      const submitBtn = document.getElementById('submitBtn');
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'جاري إرسال الرمز... / Sending Code...';
+      errorMsg.style.display = 'none';
+      infoMsg.style.display = 'none';
+
+      try {
+        const response = await fetch('/api/auth/signup-request', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          registeredEmail = email;
+          document.getElementById('sentEmailText').textContent = email;
+          
+          // Switch UI view to OTP mode
+          document.getElementById('signupForm').style.display = 'none';
+          document.getElementById('otpSection').style.display = 'block';
+          document.getElementById('formSubtitle').textContent = 'التحقق من البريد / Email Verification';
+          
+          infoMsg.style.display = 'block';
+          infoMsg.textContent = data.message || 'تم إرسال رمز التحقق بنجاح / Verification code sent.';
+          
+          // Autofocus first OTP digit
+          setTimeout(() => {
+            document.getElementById('otp1').focus();
+          }, 100);
+        } else {
+          card.classList.add('shake');
+          errorMsg.style.display = 'block';
+          errorMsg.textContent = data.error || 'فشل التسجيل، حاول مرة أخرى / Registration failed.';
+          setTimeout(() => {
+            card.classList.remove('shake');
+          }, 500);
+        }
+      } catch (err) {
+        errorMsg.style.display = 'block';
+        errorMsg.textContent = 'خطأ في الاتصال بالخادم. حاول مرة أخرى / Connection error.';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'إنشاء حساب وإرسال الرمز / Sign Up & Send OTP';
+      }
+    }
+
+    // Step 2: Submit OTP code to complete registration
+    async function handleOtpVerification(e) {
+      e.preventDefault();
+      const card = document.getElementById('signupCard');
+      const errorMsg = document.getElementById('errorMsg');
+      const infoMsg = document.getElementById('infoMsg');
+      const verifyBtn = document.getElementById('verifyBtn');
+
+      // Construct OTP
+      let otp = "";
+      for (let i = 1; i <= 6; i++) {
+        otp += document.getElementById(`otp${i}`).value.trim();
+      }
+
+      if (otp.length < 6) {
+        errorMsg.style.display = 'block';
+        errorMsg.textContent = 'يرجى إدخال الرمز المكون من 6 أرقام كاملاً / Please enter all 6 digits.';
+        return;
+      }
+
+      verifyBtn.disabled = true;
+      verifyBtn.textContent = 'جاري التحقق... / Verifying...';
+      errorMsg.style.display = 'none';
+      infoMsg.style.display = 'none';
+
+      try {
+        const response = await fetch('/api/auth/signup-verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ otp })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          infoMsg.style.display = 'block';
+          infoMsg.style.color = 'var(--success)';
+          infoMsg.style.background = 'rgba(107, 203, 119, 0.08)';
+          infoMsg.style.borderColor = 'rgba(107, 203, 119, 0.2)';
+          infoMsg.textContent = '🎉 تم التحقق وتسجيل الحساب بنجاح! جاري التوجيه... / Registration successful! Redirecting...';
+          
+          setTimeout(() => {
+            if (data.role === 'admin') {
+              window.location.href = '/admin';
+            } else {
+              window.location.href = '/';
+            }
+          }, 1500);
+        } else {
+          card.classList.add('shake');
+          errorMsg.style.display = 'block';
+          errorMsg.textContent = data.error || 'رمز التحقق غير صحيح / Incorrect verification code.';
+          setTimeout(() => {
+            card.classList.remove('shake');
+          }, 500);
+        }
+      } catch (err) {
+        errorMsg.style.display = 'block';
+        errorMsg.textContent = 'خطأ في الاتصال بالخادم. حاول مرة أخرى / Connection error.';
+      } finally {
+        verifyBtn.disabled = false;
+        verifyBtn.textContent = 'تأكيد رمز التحقق / Verify Code';
+      }
+    }
+
+    function showSignupForm() {
+      document.getElementById('signupForm').style.display = 'block';
+      document.getElementById('otpSection').style.display = 'none';
+      document.getElementById('formSubtitle').textContent = 'إنشاء حساب مشرف جديد / New Admin Signup';
+      document.getElementById('errorMsg').style.display = 'none';
+      document.getElementById('infoMsg').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
