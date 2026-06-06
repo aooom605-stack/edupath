@@ -998,6 +998,78 @@
         gap: 10px;
       }
     }
+
+    /* --- TRANSITIONS & SMOOTH INTERACTIVE ANIMATIONS --- */
+
+    /* 1. Page Entrance Slide/Fade */
+    .page-section {
+      animation: pageEntrance 0.45s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+    }
+    @keyframes pageEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 2. Sidebar Hover slide-in micro-interaction */
+    .sidebar-nav .nav-item {
+      transition: transform var(--trans), background-color var(--trans), color var(--trans), border-color var(--trans);
+    }
+    .sidebar-nav .nav-item:hover {
+      transform: translateX(4px);
+    }
+    [dir="rtl"] .sidebar-nav .nav-item:hover {
+      transform: translateX(-4px);
+    }
+
+    /* 3. Stats cards float on hover */
+    .admin-stat-card {
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.35s;
+    }
+    .admin-stat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    /* 4. Quick Actions Hover float */
+    .quick-action-btn {
+      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s, box-shadow 0.3s;
+    }
+    .quick-action-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(255, 107, 107, 0.18);
+    }
+
+    /* 5. Summary Stats cards float on hover */
+    .summary-card {
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .summary-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    /* 6. Form inputs focus glow */
+    .form-group input:focus, 
+    .form-group select:focus, 
+    .form-group textarea:focus {
+      border-color: var(--coral) !important;
+      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.15);
+      transition: all 0.3s;
+    }
+
+    /* 7. Action buttons hover rotate/pop */
+    .btn-action {
+      transition: transform 0.2s, background-color 0.2s, color 0.2s;
+    }
+    .btn-action:hover {
+      transform: scale(1.1);
+    }
   </style>
 </head>
 <body>

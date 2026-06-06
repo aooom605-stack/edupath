@@ -1129,7 +1129,208 @@
       }
       .tools-grid {
         grid-template-columns: repeat(4, 1fr);
+    /* --- ADVANCED ANIMATIONS & INTERACTIONS --- */
+    
+    /* 1. Hero Staggered Entrance */
+    .hero-title {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: heroFadeIn 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+    }
+    .hero-subtext {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: heroFadeIn 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 0.25s;
+    }
+    .hero-buttons {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: heroFadeIn 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 0.45s;
+    }
+    @keyframes heroFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
+    }
+
+    /* 2. Floating Ambient Background Blobs */
+    .hero-blobs {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.12;
+      animation: floatBlob 20s infinite alternate ease-in-out;
+    }
+    .blob-1 {
+      width: 320px;
+      height: 320px;
+      background: var(--coral);
+      top: -60px;
+      left: -60px;
+    }
+    .blob-2 {
+      width: 420px;
+      height: 420px;
+      background: var(--teal);
+      bottom: -120px;
+      right: -60px;
+      animation-duration: 26s;
+      animation-delay: -6s;
+    }
+    .blob-3 {
+      width: 260px;
+      height: 260px;
+      background: #FFD93D;
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-duration: 16s;
+      animation-delay: -3s;
+    }
+    @keyframes floatBlob {
+      0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+      }
+      33% {
+        transform: translate(40px, -60px) scale(1.15) rotate(120deg);
+      }
+      66% {
+        transform: translate(-30px, 30px) scale(0.9) rotate(240deg);
+      }
+      100% {
+        transform: translate(0, 0) scale(1) rotate(360deg);
+      }
+    }
+
+    /* 3. Reveal on Scroll system */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s cubic-bezier(0.215, 0.61, 0.355, 1), transform 0.9s cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.215, 0.61, 0.355, 1), transform 0.7s cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .reveal-stagger.active > * {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-stagger.active > *:nth-child(1) { transition-delay: 0.1s; }
+    .reveal-stagger.active > *:nth-child(2) { transition-delay: 0.2s; }
+    .reveal-stagger.active > *:nth-child(3) { transition-delay: 0.3s; }
+    .reveal-stagger.active > *:nth-child(4) { transition-delay: 0.4s; }
+    .reveal-stagger.active > *:nth-child(5) { transition-delay: 0.5s; }
+    .reveal-stagger.active > *:nth-child(6) { transition-delay: 0.6s; }
+    .reveal-stagger.active > *:nth-child(7) { transition-delay: 0.7s; }
+    .reveal-stagger.active > *:nth-child(8) { transition-delay: 0.8s; }
+
+    /* Progress bar entrance animation when revealed */
+    @keyframes fillProgressBar {
+      from { width: 0%; }
+    }
+    .reveal.active .course-progress-bar,
+    .reveal-stagger.active .course-progress-bar {
+      animation: fillProgressBar 1.4s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+    }
+
+    /* 4. Cohesive Card Hover Uplifts & Glowing Shadows */
+    .course-card {
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.4s;
+    }
+    .course-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: rgba(78, 205, 196, 0.4);
+      box-shadow: 0 20px 40px rgba(78, 205, 196, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+    .lang-card {
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .lang-card:hover:not(.flipped) {
+      transform: translateY(-10px) scale(1.02);
+    }
+
+    /* 5. Floating Back to Top Button with Circular Scroll Progress indicator */
+    .progress-wrap {
+      position: fixed;
+      left: 30px;
+      bottom: 30px;
+      height: 48px;
+      width: 48px;
+      cursor: pointer;
+      display: block;
+      border-radius: 50%;
+      box-shadow: 0 10px 30px rgba(26, 31, 60, 0.15);
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    .progress-wrap.active-progress {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .progress-wrap .arrow-icon {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 46px;
+      width: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: var(--navy);
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+    .progress-wrap:hover .arrow-icon {
+      color: var(--coral);
+      transform: translateY(-3px);
+    }
+    .progress-wrap svg.progress-circle path {
+      fill: none;
+      stroke: var(--coral);
+      stroke-width: 4;
+      box-sizing: border-box;
+      transition: stroke-dashoffset 10ms linear;
+    }
+
+    /* Subtle Micro-interactions */
+    .btn {
+      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s;
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+    .btn-coral:hover {
+      background: #ff5252;
+      box-shadow: 0 10px 20px rgba(255, 107, 107, 0.25);
+    }
+    .btn-outline:hover {
+      background: rgba(26, 31, 60, 0.05);
+      transform: translateY(-3px);
     }
   </style>
 </head>
@@ -1165,6 +1366,11 @@
   <main>
     <!-- 2. HERO SECTION -->
     <section id="hero" class="hero-section">
+      <div class="hero-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+      </div>
       <div class="floating-shape shape-1"></div>
       <div class="floating-shape shape-2"></div>
       <div class="floating-shape shape-3"></div>
@@ -1180,7 +1386,7 @@
 
     <!-- 3. STATS BAR -->
     <section class="stats-bar">
-      <div class="stats-container">
+      <div class="stats-container reveal-stagger">
         <div class="stat-item">
           <div class="stat-icon"><i class="fa-solid fa-user-graduate" style="color: var(--coral);"></i></div>
           <div class="stat-number-wrapper">
@@ -1223,7 +1429,7 @@
           </div>
         </div>
 
-        <div class="courses-grid" id="coursesGrid">
+        <div class="courses-grid reveal-stagger" id="coursesGrid">
           <!-- Course Card 1 -->
           <div class="course-card" data-category="programming">
             <div class="course-header">
@@ -1321,7 +1527,7 @@
     <section id="languages" class="languages-section">
       <div class="section-container">
         <h2 class="section-title">اختر لغتك وابدأ رحلتك</h2>
-        <div class="languages-grid">
+        <div class="languages-grid reveal-stagger">
           <!-- Lang Card 1 -->
           <div class="lang-card">
             <div class="lang-card-inner">
@@ -1569,7 +1775,7 @@
     <section id="tools" class="tools-section">
       <div class="section-container">
         <h2 class="section-title">أدوات الأوفيس الاحترافية</h2>
-        <div class="tools-grid">
+        <div class="tools-grid reveal-stagger">
           <!-- Tool Card 1 -->
           <div class="tool-card">
             <span class="tool-emoji"><i class="fa-solid fa-file-excel" style="color: #1F7244;"></i></span>
@@ -1694,7 +1900,7 @@
       <div class="section-container">
         <h2 class="section-title">الكورسات المميزة</h2>
         
-        <div class="carousel-container">
+        <div class="carousel-container reveal">
           <div class="carousel-track-wrapper">
             <div class="carousel-track" id="carouselTrack">
               <!-- Slide 1 -->
@@ -1846,7 +2052,7 @@
   <!-- 10. FOOTER -->
   <footer class="footer-section" id="about">
     <div class="section-container">
-      <div class="footer-grid">
+      <div class="footer-grid reveal">
         <!-- Brand / Tagline -->
         <div class="footer-brand">
           <a href="#hero" class="footer-logo">EduPath <i class="fa-solid fa-graduation-cap" style="color: var(--coral);"></i></a>
@@ -1916,7 +2122,15 @@
         <p class="copyright">© 2025 EduPath — جميع الحقوق محفوظة</p>
       </div>
     </div>
-  </footer>
+  <!-- Floating Back to Top Button -->
+  <div class="progress-wrap" id="backToTop">
+    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+      <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+    </svg>
+    <div class="arrow-icon">
+      <i class="fa-solid fa-arrow-up"></i>
+    </div>
+  </div>
 
   <!-- JAVASCRIPT -->
   <script>
@@ -1930,6 +2144,8 @@
       initNewsletter();
       initSmoothScroll();
       initEnrollment();
+      initScrollReveal();
+      initBackToTop();
     });
 
     // 1. Navbar Scrolled Shadow + Mobile Toggle
@@ -2299,6 +2515,63 @@
       } catch (err) {
         console.error(err);
       }
+    }
+
+    // Scroll Reveal Intersection Observer
+    function initScrollReveal() {
+      const reveals = document.querySelectorAll('.reveal, .reveal-stagger');
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.08,
+        rootMargin: "0px 0px -40px 0px"
+      });
+
+      reveals.forEach(el => observer.observe(el));
+    }
+
+    // Floating Back to Top Button Progress Indicator
+    function initBackToTop() {
+      const b2t = document.getElementById('backToTop');
+      if (!b2t) return;
+      const progressPath = b2t.querySelector('path');
+      if (!progressPath) return;
+
+      const pathLength = progressPath.getTotalLength();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'none';
+      progressPath.style.strokeDasharray = pathLength + ' ' + pathLength;
+      progressPath.style.strokeDashoffset = pathLength;
+      progressPath.getBoundingClientRect();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'stroke-dashoffset 10ms linear';
+      
+      const updateProgress = () => {
+        const scroll = window.pageYOffset || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const progress = pathLength - (scroll * pathLength / height);
+        progressPath.style.strokeDashoffset = progress;
+      };
+      
+      updateProgress();
+      window.addEventListener('scroll', updateProgress);
+      
+      const offset = 120;
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > offset) {
+          b2t.classList.add('active-progress');
+        } else {
+          b2t.classList.remove('active-progress');
+        }
+      });
+      
+      b2t.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     }
   </script>
 </body>
