@@ -2134,7 +2134,7 @@
 
   <!-- JAVASCRIPT -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       initNavbar();
       initScrollspy();
       initCounters();
@@ -2143,6 +2143,10 @@
       initCarousel();
       initNewsletter();
       initSmoothScroll();
+      
+      // Load courses from database before initiating scroll reveal
+      await loadDynamicCourses();
+
       initEnrollment();
       initScrollReveal();
       initBackToTop();
@@ -2572,6 +2576,78 @@
         event.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
+    }
+
+    // Load courses dynamically from REST API
+    async function loadDynamicCourses() {
+      try {
+        const response = await fetch('/api/courses');
+        if (!response.ok) throw new Error('Failed to fetch courses');
+        const courses = await response.json();
+        
+        const grid = document.getElementById('coursesGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        courses.forEach(c => {
+          if (c.status !== 'published') return; // Only show published courses to public students
+          
+          const card = document.createElement('div');
+          card.className = 'course-card';
+          card.setAttribute('data-category', c.category.toLowerCase());
+          
+          const badgeClass = c.level === 'مبتدئ' || c.level === 'Beginner' ? 'badge-beginner' 
+                           : c.level === 'متوسط' || c.level === 'Intermediate' ? 'badge-intermediate' 
+                           : 'badge-advanced';
+          
+          // Map brand colors for icons
+          let iconColor = 'var(--coral)';
+          const iconClass = c.icon || 'fa-solid fa-book';
+          
+          if (iconClass.includes('fa-python')) iconColor = '#3776AB';
+          else if (iconClass.includes('fa-js')) iconColor = '#F7DF1E';
+          else if (iconClass.includes('fa-file-excel')) iconColor = '#1F7244';
+          else if (iconClass.includes('fa-figma')) iconColor = '#F24E1E';
+          else if (iconClass.includes('fa-database')) iconColor = '#00758F';
+          else if (iconClass.includes('fa-language')) iconColor = '#4A90E2';
+          else if (iconClass.includes('fa-robot')) iconColor = '#9b5DE5';
+          else if (iconClass.includes('fa-mobile')) iconColor = '#02569B';
+          else if (iconClass.includes('fa-shield')) iconColor = '#F15BB5';
+          else if (iconClass.includes('fa-laptop')) iconColor = '#00F5D4';
+          else if (iconClass.includes('fa-table')) iconColor = '#0F9D58';
+          else if (iconClass.includes('fa-file-word')) iconColor = '#2B579A';
+          else if (iconClass.includes('fa-file-powerpoint')) iconColor = '#D24726';
+
+          // Set a fake static progress based on course ID or fallback
+          let progressPercent = 50;
+          if (c.id === 'c1') progressPercent = 45;
+          else if (c.id === 'c2') progressPercent = 70;
+          else if (c.id === 'c3') progressPercent = 35;
+          else if (c.id === 'c4') progressPercent = 80;
+          else if (c.id === 'c5') progressPercent = 60;
+          else {
+            progressPercent = Math.floor(20 + Math.random() * 60);
+          }
+
+          card.innerHTML = `
+            <div class="course-header">
+              <span class="course-icon"><i class="${iconClass}" style="color: ${iconColor};"></i></span>
+              <span class="course-badge ${badgeClass}">${c.level}</span>
+            </div>
+            <h3 class="course-title">${c.name}</h3>
+            <p class="course-duration"><i class="fa-regular fa-clock" style="margin-left: 5px; color: var(--muted);"></i> ${c.duration}</p>
+            <div class="course-progress-wrapper">
+              <div class="course-progress-bar" style="width: ${progressPercent}%;"></div>
+            </div>
+            <div class="course-progress-text">اكتمال الكورس: ${progressPercent}%</div>
+            <button class="btn-enroll">سجّل الآن</button>
+          `;
+          grid.appendChild(card);
+        });
+
+      } catch (err) {
+        console.error('Error loading dynamic courses:', err);
+      }
     }
   </script>
 </body>

@@ -1652,6 +1652,44 @@
   <!-- JAVASCRIPT IMPLEMENTATIONS -->
   <script src="/assets/app.js"></script>
   <script>
+    // Global Backend Data State
+    let courses = [];
+    let videos = [];
+    let comments = [];
+
+    const defaultStudents = [
+      { id: "std1", name: "أحمد محمد", email: "ahmed@example.com", courses: 3, regDate: "2026-06-01", status: "active" },
+      { id: "std2", name: "سارة أحمد", email: "sara@example.com", courses: 2, regDate: "2026-06-02", status: "active" },
+      { id: "std3", name: "كريم حسن", email: "karim@example.com", courses: 4, regDate: "2026-06-03", status: "active" },
+      { id: "std4", name: "منى إبراهيم", email: "mona@example.com", courses: 1, regDate: "2026-06-04", status: "suspended" },
+      { id: "std5", name: "عمر عبدالله", email: "omar@example.com", courses: 5, regDate: "2026-06-05", status: "active" }
+    ];
+
+    async function loadBackendData() {
+      try {
+        const [coursesRes, videosRes, commentsRes] = await Promise.all([
+          fetch('/api/courses'),
+          fetch('/api/videos'),
+          fetch('/api/comments')
+        ]);
+        
+        if (coursesRes.ok) courses = await coursesRes.json();
+        if (videosRes.ok) videos = await videosRes.json();
+        if (commentsRes.ok) comments = await commentsRes.json();
+      } catch (err) {
+        console.error("Failed to load backend data:", err);
+        showToast("<i class=\"fa-solid fa-circle-xmark\" style=\"margin-left: 8px;\"></i> فشل في تحميل البيانات من الخادم / Failed to load data from server", "error");
+      }
+    }
+
+    function viewCourseVideos(courseId) {
+      const courseFilter = document.getElementById('videoCourseFilter');
+      if (courseFilter) {
+        courseFilter.value = courseId;
+      }
+      navigateToPage('videos');
+    }
+
     function renderIcon(iconStr, extraStyle = '') {
       if (!iconStr) return '';
       if (iconStr.includes('fa-')) {
@@ -1660,10 +1698,14 @@
       return iconStr;
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       seedDefaultData();
+      await loadBackendData();
       initSidebar();
       initRouter();
+      
+      // Load initial dashboard stats
+      await navigateToPage('dashboard');
       
       // Real-time YouTube Link listener for live previews
       const urlInput = document.getElementById('videoUrlInput');
@@ -1683,43 +1725,6 @@
 
     // Seed default data if not exists
     function seedDefaultData() {
-      if (!localStorage.getItem('ep_courses')) {
-        const defaultCourses = [
-          { id: "c1", name: "Python للمبتدئين", description: "تعلم بايثون من الصفر", category: "Programming", level: "مبتدئ", duration: "8 ساعات", price: 0, icon: "fa-brands fa-python", status: "published" },
-          { id: "c2", name: "JavaScript الحديث", description: "احترف الجافاسكريبت الحديثة", category: "Programming", level: "متوسط", duration: "12 ساعة", price: 299, icon: "fa-brands fa-js", status: "published" },
-          { id: "c3", name: "Excel الاحترافي", description: "احترف برنامج اكسل بالكامل", category: "Office", level: "مبتدئ", duration: "6 ساعات", price: 199, icon: "fa-solid fa-file-excel", status: "published" },
-          { id: "c4", name: "SQL وقواعد البيانات", description: "تعلم SQL وقواعد البيانات", category: "Data", level: "متقدم", duration: "14 ساعة", price: 349, icon: "fa-solid fa-database", status: "draft" },
-          { id: "c5", name: "تصميم UI/UX بـ Figma", description: "تعلم واجهات المستخدم بفيجما", category: "Design", level: "متوسط", duration: "10 ساعات", price: 249, icon: "fa-brands fa-figma", status: "published" }
-        ];
-        localStorage.setItem('ep_courses', JSON.stringify(defaultCourses));
-      }
-
-      if (!localStorage.getItem('ep_videos')) {
-        const defaultVideos = [
-          { id: "v1", title: "مقدمة إلى Python للمبتدئين", description: "شرح مبسط للبداية مع لغة بايثون وتثبيت بيئة العمل.", youtubeUrl: "https://www.youtube.com/watch?v=kqtD5dpn9C8", youtubeId: "kqtD5dpn9C8", courseId: "c1", order: 1, duration: "14:22", status: "published", dateAdded: "2026-06-01" },
-          { id: "v2", title: "المتغيرات وأنواع البيانات في Python", description: "فهم المتغيرات وأنواع البيانات الأساسية وطريقة استخدامها.", youtubeUrl: "https://www.youtube.com/watch?v=Z1Yd7upQsXY", youtubeId: "Z1Yd7upQsXY", courseId: "c1", order: 2, duration: "18:05", status: "published", dateAdded: "2026-06-02" },
-          { id: "v3", title: "مقدمة إلى JavaScript", description: "أساسيات لغة جافا سكريبت وكيفية تشغيلها في المتصفح.", youtubeUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk", youtubeId: "W6NZfCO5SIk", courseId: "c2", order: 1, duration: "22:10", status: "published", dateAdded: "2026-06-03" },
-          { id: "v4", title: "المصفوفات والكائنات في JavaScript", description: "شرح التعامل مع المصفوفات Arrays والكائنات Objects بالتفصيل.", youtubeUrl: "https://www.youtube.com/watch?v=oigfaZ5ApsM", youtubeId: "oigfaZ5ApsM", courseId: "c2", order: 2, duration: "16:48", status: "published", dateAdded: "2026-06-04" },
-          { id: "v5", title: "Excel للمبتدئين — الدرس الأول", description: "شرح واجهة برنامج اكسل والتعامل مع الخلايا والجداول.", youtubeUrl: "https://www.youtube.com/watch?v=rwbho0CgEkE", youtubeId: "rwbho0CgEkE", courseId: "c3", order: 1, duration: "11:30", status: "published", dateAdded: "2026-06-04" },
-          { id: "v6", title: "المعادلات الأساسية في Excel", description: "كتابة المعادلات والعمليات الحسابية البسيطة والجمع التلقائي.", youtubeUrl: "https://www.youtube.com/watch?v=BoJPFqnRBDs", youtubeId: "BoJPFqnRBDs", courseId: "c3", order: 2, duration: "19:15", status: "published", dateAdded: "2026-06-05" },
-          { id: "v7", title: "SQL — استعلامات SELECT المتقدمة", description: "شرح جلب البيانات وتصفيتها باستخدام جمل SQL المتقدمة.", youtubeUrl: "https://www.youtube.com/watch?v=7S_tz1z_5bA", youtubeId: "7S_tz1z_5bA", courseId: "c4", order: 1, duration: "25:40", status: "draft", dateAdded: "2026-06-05" },
-          { id: "v8", title: "تصميم الـ UI بـ Figma — البداية", description: "تثبيت فيجما والتعامل مع الأدوات الأساسية والـ Frames.", youtubeUrl: "https://www.youtube.com/watch?v=FTFaQWZBqQ8", youtubeId: "FTFaQWZBqQ8", courseId: "c5", order: 1, duration: "20:00", status: "draft", dateAdded: "2026-06-06" }
-        ];
-        localStorage.setItem('ep_videos', JSON.stringify(defaultVideos));
-      }
-
-      if (!localStorage.getItem('ep_comments')) {
-        const defaultComments = [
-          { id: "com1", studentName: "أحمد محمد", text: "شرح ممتاز جداً، استفدت كتير!", videoTitle: "مقدمة إلى Python للمبتدئين", date: "2026-06-06", status: "pending" },
-          { id: "com2", studentName: "سارة أحمد", text: "متى هيتضاف الجزء التاني؟", videoTitle: "Excel للمبتدئين — الدرس الأول", date: "2026-06-06", status: "pending" },
-          { id: "com3", studentName: "كريم حسن", text: "أفضل كورس JavaScript شوفته", videoTitle: "مقدمة إلى JavaScript", date: "2026-06-05", status: "approved" },
-          { id: "com4", studentName: "منى إبراهيم", text: "الصوت في الفيديو مش واضح", videoTitle: "SQL — استعلامات SELECT المتقدمة", date: "2026-06-04", status: "pending" },
-          { id: "com5", studentName: "عمر عبدالله", text: "محتاج مزيد من التفاصيل", videoTitle: "تصميم الـ UI بـ Figma — البداية", date: "2026-06-03", status: "approved" },
-          { id: "com6", studentName: "ليلى محمود", text: "شكراً على المحتوى الرائع!", videoTitle: "المتغيرات وأنواع البيانات في Python", date: "2026-06-02", status: "approved" }
-        ];
-        localStorage.setItem('ep_comments', JSON.stringify(defaultComments));
-      }
-
       if (!localStorage.getItem('ep_activity')) {
         const defaultActivity = [
           { msg: "تمت إضافة فيديو \"مقدمة Python\" — منذ دقيقتين", timestamp: Date.now() - 2 * 60 * 1000 },
@@ -1770,7 +1775,7 @@
       // router logic handled in navigateToPage
     }
 
-    function navigateToPage(pageId) {
+    async function navigateToPage(pageId) {
       const sections = document.querySelectorAll('.page-section');
       sections.forEach(sec => sec.style.display = 'none');
 
@@ -1787,6 +1792,8 @@
           item.classList.remove('active');
         }
       });
+
+      await loadBackendData();
 
       switch (pageId) {
         case 'dashboard':
@@ -1862,10 +1869,6 @@
     }
 
     function refreshDashboard() {
-      const videos = JSON.parse(localStorage.getItem('ep_videos')) || [];
-      const courses = JSON.parse(localStorage.getItem('ep_courses')) || [];
-      const comments = JSON.parse(localStorage.getItem('ep_comments')) || [];
-
       document.getElementById('statTotalVideos').textContent = videos.length;
       document.getElementById('statTotalCourses').textContent = courses.length;
       document.getElementById('statTotalComments').textContent = comments.length;
@@ -1879,7 +1882,6 @@
 
     // PAGE 2: VIDEOS MANAGER
     function initVideosPage() {
-      const courses = JSON.parse(localStorage.getItem('ep_courses')) || [];
       const courseFilter = document.getElementById('videoCourseFilter');
 
       const currentSelected = courseFilter.value;
@@ -1892,7 +1894,6 @@
       });
       courseFilter.value = currentSelected;
 
-      const videos = JSON.parse(localStorage.getItem('ep_videos')) || [];
       const tbody = document.getElementById('videosTableBody');
       tbody.innerHTML = '';
 
@@ -1935,7 +1936,7 @@
       });
     }
 
-    function handleVideoFormSubmit() {
+    async function handleVideoFormSubmit() {
       const id = document.getElementById('videoEditId').value;
       const title = document.getElementById('videoTitleInput').value.trim();
       const description = document.getElementById('videoDescInput').value.trim();
@@ -1951,38 +1952,52 @@
         return;
       }
 
-      const videoData = { id, title, description, youtubeUrl, youtubeId, courseId, order, duration, status };
-      saveVideo(videoData);
-      closeModal();
-      initVideosPage();
-    }
-
-    function saveVideo(data) {
-      let videos = JSON.parse(localStorage.getItem('ep_videos')) || [];
-
-      if (data.id) {
-        const index = videos.findIndex(x => x.id === data.id);
-        if (index !== -1) {
-          videos[index] = { ...videos[index], ...data, dateAdded: videos[index].dateAdded };
-          showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تم تعديل الفيديو بنجاح! / Video updated.", "success");
-          logActivity(`تم تعديل فيديو: "${data.title}"`);
-        }
-      } else {
-        data.id = "v_" + Date.now();
-        data.dateAdded = new Date().toISOString().split('T')[0];
-        videos.push(data);
-        showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تمت إضافة الفيديو بنجاح! / Video added.", "success");
-        logActivity(`تمت إضافة فيديو: "${data.title}"`);
+      const videoData = { title, description, youtubeUrl, youtubeId, courseId, order, duration, status };
+      if (id) {
+        videoData.id = id;
       }
 
-      localStorage.setItem('ep_videos', JSON.stringify(videos));
-      refreshDashboard();
+      const success = await saveVideo(videoData);
+      if (success) {
+        closeModal();
+        await loadBackendData();
+        initVideosPage();
+        refreshDashboard();
+      }
+    }
+
+    async function saveVideo(data) {
+      try {
+        const response = await fetch('/api/videos', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+          const errData = await response.json();
+          throw new Error(errData.error || 'Failed to save video');
+        }
+
+        if (data.id) {
+          showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تم تعديل الفيديو بنجاح! / Video updated.", "success");
+          logActivity(`تم تعديل فيديو: "${data.title}"`);
+        } else {
+          showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تمت إضافة الفيديو بنجاح! / Video added.", "success");
+          logActivity(`تمت إضافة فيديو: "${data.title}"`);
+        }
+        return true;
+      } catch (err) {
+        console.error(err);
+        showToast(`<i class="fa-solid fa-circle-xmark" style="margin-left: 8px;"></i> خطأ في حفظ الفيديو: ${err.message}`, "error");
+        return false;
+      }
     }
 
     // PAGE 3: COURSES MANAGER
     function initCoursesPage() {
-      const courses = JSON.parse(localStorage.getItem('ep_courses')) || [];
-      const videos = JSON.parse(localStorage.getItem('ep_videos')) || [];
       const tbody = document.getElementById('coursesTableBody');
       tbody.innerHTML = '';
 
@@ -2017,7 +2032,7 @@
       });
     }
 
-    function handleCourseFormSubmit() {
+    async function handleCourseFormSubmit() {
       const id = document.getElementById('courseEditId').value;
       const name = document.getElementById('courseNameInput').value.trim();
       const description = document.getElementById('courseDescInput').value.trim();
@@ -2028,31 +2043,48 @@
       const icon = document.getElementById('courseIconInput').value.trim();
       const status = document.getElementById('courseStatusInput').value;
 
-      const courseData = { id, name, description, category, level, duration, price, icon, status };
-      saveCourse(courseData);
-      closeModal();
-      initCoursesPage();
-    }
-
-    function saveCourse(data) {
-      let courses = JSON.parse(localStorage.getItem('ep_courses')) || [];
-
-      if (data.id) {
-        const index = courses.findIndex(x => x.id === data.id);
-        if (index !== -1) {
-          courses[index] = { ...courses[index], ...data };
-          showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تم تعديل الكورس بنجاح! / Course updated.", "success");
-          logActivity(`تم تعديل كورس: "${data.name}"`);
-        }
-      } else {
-        data.id = "c_" + Date.now();
-        courses.push(data);
-        showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تمت إضافة الكورس بنجاح! / Course added.", "success");
-        logActivity(`تمت إضافة كورس جديد: "${data.name}"`);
+      const courseData = { name, description, category, level, duration, price, icon, status };
+      if (id) {
+        courseData.id = id;
       }
 
-      localStorage.setItem('ep_courses', JSON.stringify(courses));
-      refreshDashboard();
+      const success = await saveCourse(courseData);
+      if (success) {
+        closeModal();
+        await loadBackendData();
+        initCoursesPage();
+        refreshDashboard();
+      }
+    }
+
+    async function saveCourse(data) {
+      try {
+        const response = await fetch('/api/courses', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+          const errData = await response.json();
+          throw new Error(errData.error || 'Failed to save course');
+        }
+
+        if (data.id) {
+          showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تم تعديل الكورس بنجاح! / Course updated.", "success");
+          logActivity(`تم تعديل كورس: "${data.name}"`);
+        } else {
+          showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تمت إضافة الكورس بنجاح! / Course added.", "success");
+          logActivity(`تمت إضافة كورس جديد: "${data.name}"`);
+        }
+        return true;
+      } catch (err) {
+        console.error(err);
+        showToast(`<i class="fa-solid fa-circle-xmark" style="margin-left: 8px;"></i> خطأ في حفظ الكورس: ${err.message}`, "error");
+        return false;
+      }
     }
 
     // PAGE 4: STUDENTS
@@ -2085,7 +2117,6 @@
 
     // PAGE 5: COMMENTS MANAGER
     function initCommentsPage() {
-      const comments = JSON.parse(localStorage.getItem('ep_comments')) || [];
       const tbody = document.getElementById('commentsTableBody');
       tbody.innerHTML = '';
 
@@ -2128,12 +2159,39 @@
       });
     }
 
+    async function saveComment(id, status) {
+      try {
+        const comment = comments.find(c => c.id === id);
+        if (!comment) throw new Error('Comment not found');
+        const updatedComment = { ...comment, status };
+
+        const response = await fetch('/api/comments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedComment)
+        });
+
+        if (!response.ok) {
+          const errData = await response.json();
+          throw new Error(errData.error || 'Failed to update comment');
+        }
+
+        showToast("<i class=\"fa-solid fa-circle-check\" style=\"margin-left: 8px;\"></i> تم تحديث حالة التعليق بنجاح! / Comment status updated.", "success");
+        logActivity(`تم تحديث حالة التعليق للمستعلم: "${comment.studentName}"`);
+        
+        await loadBackendData();
+        initCommentsPage();
+        refreshDashboard();
+      } catch (err) {
+        console.error(err);
+        showToast(`<i class="fa-solid fa-circle-xmark" style="margin-left: 8px;"></i> خطأ في تحديث التعليق: ${err.message}`, "error");
+      }
+    }
+
     // PAGE 6: ANALYTICS
     function initAnalyticsPage() {
-      const videos = JSON.parse(localStorage.getItem('ep_videos')) || [];
-      const courses = JSON.parse(localStorage.getItem('ep_courses')) || [];
-      const comments = JSON.parse(localStorage.getItem('ep_comments')) || [];
-
       const chart1 = document.getElementById('videosPerCourseChart');
       chart1.innerHTML = '';
 
@@ -2290,7 +2348,6 @@
 
       if (type === 'video') {
         videoCard.style.display = 'block';
-        const courses = JSON.parse(localStorage.getItem('ep_courses')) || [];
         const courseSelect = document.getElementById('videoCourseInput');
         courseSelect.innerHTML = '';
         courses.forEach(c => {
@@ -2307,7 +2364,6 @@
 
         if (id) {
           titleEl.textContent = 'تعديل الفيديو / Edit Video';
-          const videos = JSON.parse(localStorage.getItem('ep_videos')) || [];
           const v = videos.find(x => x.id === id);
           if (v) {
             document.getElementById('videoEditId').value = v.id;
@@ -2335,7 +2391,6 @@
 
         if (id) {
           titleEl.textContent = 'تعديل الكورس / Edit Course';
-          const courses = JSON.parse(localStorage.getItem('ep_courses')) || [];
           const c = courses.find(x => x.id === id);
           if (c) {
             document.getElementById('courseEditId').value = c.id;
@@ -2382,44 +2437,39 @@
       }
     }
 
-    function confirmDelete() {
+    async function confirmDelete() {
       const type = document.getElementById('deleteType').value;
       const id = document.getElementById('deleteId').value;
 
-      if (type === 'video') {
-        let videos = JSON.parse(localStorage.getItem('ep_videos')) || [];
-        const v = videos.find(x => x.id === id);
-        videos = videos.filter(x => x.id !== id);
-        localStorage.setItem('ep_videos', JSON.stringify(videos));
-        showToast("<i class=\"fa-solid fa-trash-can\" style=\"margin-left: 8px;\"></i> تم حذف الفيديو بنجاح. / Video deleted.", "success");
-        if (v) logActivity(`تم حذف فيديو: "${v.title}"`);
-        initVideosPage();
-      } else if (type === 'course') {
-        let courses = JSON.parse(localStorage.getItem('ep_courses')) || [];
-        const c = courses.find(x => x.id === id);
-        courses = courses.filter(x => x.id !== id);
-        localStorage.setItem('ep_courses', JSON.stringify(courses));
-        showToast("<i class=\"fa-solid fa-trash-can\" style=\"margin-left: 8px;\"></i> تم حذف الكورس بنجاح. / Course deleted.", "success");
-        if (c) logActivity(`تم حذف كورس: "${c.name}"`);
-        
-        let videos = JSON.parse(localStorage.getItem('ep_videos')) || [];
-        videos.forEach(v => {
-          if (v.courseId === id) {
-            v.courseId = '';
-          }
-        });
-        localStorage.setItem('ep_videos', JSON.stringify(videos));
-        initCoursesPage();
-      } else if (type === 'comment') {
-        let comments = JSON.parse(localStorage.getItem('ep_comments')) || [];
-        const c = comments.find(x => x.id === id);
-        if (c) {
-          c.status = 'deleted';
-          localStorage.setItem('ep_comments', JSON.stringify(comments));
+      try {
+        if (type === 'video') {
+          const v = videos.find(x => x.id === id);
+          const response = await fetch(`/api/videos?id=${id}`, { method: 'DELETE' });
+          if (!response.ok) throw new Error('Failed to delete video');
+          showToast("<i class=\"fa-solid fa-trash-can\" style=\"margin-left: 8px;\"></i> تم حذف الفيديو بنجاح. / Video deleted.", "success");
+          if (v) logActivity(`تم حذف فيديو: "${v.title}"`);
+          await loadBackendData();
+          initVideosPage();
+        } else if (type === 'course') {
+          const c = courses.find(x => x.id === id);
+          const response = await fetch(`/api/courses?id=${id}`, { method: 'DELETE' });
+          if (!response.ok) throw new Error('Failed to delete course');
+          showToast("<i class=\"fa-solid fa-trash-can\" style=\"margin-left: 8px;\"></i> تم حذف الكورس بنجاح. / Course deleted.", "success");
+          if (c) logActivity(`تم حذف كورس: "${c.name}"`);
+          await loadBackendData();
+          initCoursesPage();
+        } else if (type === 'comment') {
+          const c = comments.find(x => x.id === id);
+          const response = await fetch(`/api/comments?id=${id}`, { method: 'DELETE' });
+          if (!response.ok) throw new Error('Failed to delete comment');
           showToast("<i class=\"fa-solid fa-trash-can\" style=\"margin-left: 8px;\"></i> تم حذف التعليق. / Comment deleted.", "success");
-          logActivity(`تم حذف تعليق للطالب: "${c.studentName}"`);
+          if (c) logActivity(`تم حذف تعليق للطالب: "${c.studentName}"`);
+          await loadBackendData();
+          initCommentsPage();
         }
-        initCommentsPage();
+      } catch (err) {
+        console.error(err);
+        showToast(`<i class="fa-solid fa-circle-xmark" style="margin-left: 8px;"></i> خطأ في الحذف: ${err.message}`, "error");
       }
 
       closeModal();

@@ -25,6 +25,9 @@ const verifyHandler = require('./api/verify');
 const signupRequestHandler = require('./api/auth/signup-request');
 const signupVerifyHandler = require('./api/auth/signup-verify');
 const adminHandler = require('./api/admin');
+const coursesHandler = require('./api/courses');
+const videosHandler = require('./api/videos');
+const commentsHandler = require('./api/comments');
 
 const server = http.createServer((req, res) => {
   // Helper to serve static files
@@ -88,6 +91,15 @@ const server = http.createServer((req, res) => {
     }
     if (pathname === '/api/admin') {
       return adminHandler(req, res);
+    }
+    if (pathname === '/api/courses') {
+      return coursesHandler(req, res);
+    }
+    if (pathname === '/api/videos') {
+      return videosHandler(req, res);
+    }
+    if (pathname === '/api/comments') {
+      return commentsHandler(req, res);
     }
 
     // Static Frontend routes

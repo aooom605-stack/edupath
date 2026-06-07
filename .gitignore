@@ -3,3 +3,7 @@ node_modules
 .env.local
 .vercel
 .netlify
+courses.json
+videos.json
+comments.json
+
